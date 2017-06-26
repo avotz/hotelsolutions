@@ -23,7 +23,7 @@
 <div class="preloader">
 		<img src="<?php echo get_template_directory_uri();  ?>/img/loader.gif" alt="Preloader image">
 	</div>
-	<nav class="navbar">
+	<nav class="navbar navbar-fixed-top">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
