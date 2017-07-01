@@ -417,12 +417,12 @@ function auto_number( $post_id, $post, $update ) {
         $ofertas = get_posts( $oferta_args );
           
         // don't update existing auto-numbering
-        $this_id = get_post_meta( $oferta[0]->ID, 'rw_of_reference', true);
+        $this_id = get_post_meta( $ofertas[0]->ID, 'rw_of_reference', true);
         if ( $this_id ) {
           return;
         }
   
-        $last_id = get_post_meta( $oferta[1]->ID, 'rw_of_reference', true);
+        $last_id = get_post_meta( $ofertas[1]->ID, 'rw_of_reference', true);
   
         if ( !$last_id ) {
             $last_id = 0;
