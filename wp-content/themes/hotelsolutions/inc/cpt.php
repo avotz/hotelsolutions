@@ -316,7 +316,11 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
                 'name'  => __( 'Tipo de establecimiento', 'textdomain' ),
                 'desc'  => '',
                 'id'    => $prefix . 'of_hotel_type',
-                'type'  => 'text',
+                'type'  => 'select',
+                 'options' => array(
+                    'c' => 'Hotel de Ciudad',
+                    'p' => 'Hotel de Playa',  
+                ),
                 'std'   => '',
                 'class' => 'custom-class',
                 'clone' => false,
