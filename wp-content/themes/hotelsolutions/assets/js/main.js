@@ -41,6 +41,15 @@ jQuery(function($) {
 		$('.owl-schedule').owlCarousel({
 			//singleItem: true,
 			items : 1,
+			autoplay : true,
+		    loop : true,
+			//pagination: true
+		});
+		$('.owl-ads').owlCarousel({
+			//singleItem: true,
+			items : 1,
+			autoplay : true,
+		    loop : true,
 			//pagination: true
 		});
 		$('.owl-testimonials').owlCarousel({

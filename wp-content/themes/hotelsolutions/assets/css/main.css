@@ -2124,6 +2124,7 @@ ul li {
 }
 input[type="email"],
 input[type="text"],
+input[type="number"],
 select,
 textarea {
   width: 100%;
@@ -2131,6 +2132,34 @@ textarea {
 }
 textarea {
   height: 90px;
+}
+.columns {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-lines: multiple;
+  -moz-box-lines: multiple;
+  -o-box-lines: multiple;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -o-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.columns .column {
+  width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .columns .column {
+    width: 48%;
+  }
 }
 /*header .table {
 	display: table;
@@ -2217,7 +2246,7 @@ header .typed-cursor {
   display: inline-block;
   zoom: 1;
 }
-span {
+.owl-dot span {
   display: block;
   width: 12px;
   height: 12px;
@@ -2230,7 +2259,7 @@ span {
   width: 8px;
   height: 8px;
 }
-.active span {
+.owl-dot.active span {
   background: #fff;
 }
 .owl-schedule .owl-dots,
@@ -2603,65 +2632,47 @@ section {
   -ms-transition: -ms-transform 0.3s;
   transition: transform 0.3s;
 }
+/*
 .intro-table-hover:hover {
-  background-image: url("./img/table-2-hover.jpg");
-  background-position: 50% 50%;
+	background-image: url('./img/table-2-hover.jpg');
+	background-position: 50% 50%;
 }
+
+
+
+.intro-table-hover .expand {
+	margin: 30px;
+	margin-top: 120px;
+	opacity: 0;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+	transition: transform 0.3s ease, opacity 0.3s;
+	-webkit-transform: scale(0.6);
+	-ms-transform: scale(0.6);
+	transform: scale(0.6);
+}
+
+.intro-table-hover:hover h4 {
+	-webkit-transform: translateY(0);
+	transform: translateY(0);
+}
+
+.intro-table-hover:hover .expand {
+	opacity: 1;
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+}
+
+.intro-table-hover .hide-hover {
+	-webkit-transition: opacity 0.3s ease;
+	transition: opacity 0.3s ease;
+}
+
+.intro-table-hover:hover .hide-hover {
+	opacity: 0;
+}*/
 .intro-table-third {
   background-image: url("./img/table-3.jpg");
-}
-.intro-table-hover .expand {
-  margin: 30px;
-  margin-top: 120px;
-  opacity: 0;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: alpha(opacity=0);
-  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
-  -webkit-transition: -webkit-transform 0.3s ease, opacity 0.3s;
-  -moz-transition: -moz-transform 0.3s ease, opacity 0.3s;
-  -o-transition: -o-transform 0.3s ease, opacity 0.3s;
-  -ms-transition: -ms-transform 0.3s ease, opacity 0.3s;
-  transition: transform 0.3s ease, opacity 0.3s;
-  -webkit-transform: scale(0.6);
-  -ms-transform: scale(0.6);
-  -webkit-transform: scale(0.6);
-  -moz-transform: scale(0.6);
-  -o-transform: scale(0.6);
-  -ms-transform: scale(0.6);
-  transform: scale(0.6);
-}
-.intro-table-hover:hover h4 {
-  -webkit-transform: translateY(0);
-  -webkit-transform: translateY(0);
-  -moz-transform: translateY(0);
-  -o-transform: translateY(0);
-  -ms-transform: translateY(0);
-  transform: translateY(0);
-}
-.intro-table-hover:hover .expand {
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -o-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-}
-.intro-table-hover .hide-hover {
-  -webkit-transition: opacity 0.3s ease;
-  -webkit-transition: opacity 0.3s ease;
-  -moz-transition: opacity 0.3s ease;
-  -o-transition: opacity 0.3s ease;
-  -ms-transition: opacity 0.3s ease;
-  transition: opacity 0.3s ease;
-}
-.intro-table-hover:hover .hide-hover {
-  opacity: 0;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: alpha(opacity=0);
 }
 .intro-tables .intro-table {
   position: relative;
@@ -2696,6 +2707,11 @@ section {
 }
 .owl-testimonials .author {
   margin-top: 50px;
+}
+.owl-testimonials p,
+.owl-twitter p {
+  color: #fff;
+  margin: 0;
 }
 .ripple-effect {
   position: absolute;
@@ -2820,7 +2836,7 @@ section {
   -ms-transform: scale(0);
   transform: scale(0);
   margin-bottom: 15px;
-  font-size: 16px;
+  font-size: 11px;
 }
 .service:hover .description {
   opacity: 1;
@@ -3067,6 +3083,10 @@ section {
 }
 .footer .social-footer li:hover a {
   color: #00a8ff;
+}
+.footer iframe {
+  border-radius: 15px;
+  width: 100%;
 }
 /* Form Control */
 .form-control {
@@ -3488,13 +3508,16 @@ p.error {
   text-align: center;
   color: #cb2028;
 }
+p.success {
+  color: #00a8ff;
+}
 .modal-content-info {
   color: #fff;
 }
 .navbar-nav .sub-menu {
   display: none;
   position: absolute;
-  width: 100%;
+  width: 300px;
   padding: 0.5rem;
   background-color: #fff;
   color: #000;
@@ -3510,6 +3533,32 @@ p.error {
 }
 .mobile-nav .sub-menu li a {
   color: #00a8ff !important;
+}
+.um-page-register .main,
+.um-page-login .main {
+  text-align: center;
+}
+.ad-description {
+  position: relative;
+  padding: 0 1.5rem 0.5rem;
+}
+.publicidad-item-img {
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 235px;
+}
+.publicidad-link {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: block;
+  z-index: 2;
 }
 @-moz-keyframes ripple-animation {
   from {

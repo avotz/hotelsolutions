@@ -145,6 +145,7 @@ ul
 
 input[type="email"]		
 input[type="text"]
+input[type="number"]
 select
 textarea
 	width 100%
@@ -153,7 +154,17 @@ textarea
 	
 textarea
 	height 90px
-	
+
+.columns
+	display flex
+	flex-wrap wrap 
+	justify-content space-between
+	.column 
+		width 100%
+@media screen and (min-width: 768px)
+	.columns
+		.column 
+			width 48%
 /*header .table {
 	display: table;
 	height: 100%;
@@ -230,7 +241,7 @@ header .typed-cursor {
 .owl-dot 
 	display: inline-block;
 	zoom: 1;
-    span
+	span
 		display: block;
 		width: 12px;
 		height: 12px;
@@ -608,15 +619,13 @@ section {
 	-webkit-transition: -webkit-transform 0.3s;
 	transition: transform 0.3s;
 }
-
+/*
 .intro-table-hover:hover {
 	background-image: url('./img/table-2-hover.jpg');
 	background-position: 50% 50%;
 }
 
-.intro-table-third {
-	background-image: url('./img/table-3.jpg');
-}
+
 
 .intro-table-hover .expand {
 	margin: 30px;
@@ -648,8 +657,10 @@ section {
 
 .intro-table-hover:hover .hide-hover {
 	opacity: 0;
+}*/
+.intro-table-third {
+	background-image: url('./img/table-3.jpg');
 }
-
 .intro-tables .intro-table {
 	position: relative;
 	width: 100%;
@@ -685,6 +696,10 @@ section {
 
 .owl-testimonials .author {
 	margin-top: 50px;
+}
+.owl-testimonials p, .owl-twitter p{
+	color: white;
+	margin 0
 }
 
 .ripple-effect {
@@ -795,7 +810,7 @@ section {
 	-ms-transform: scale(0);
 	transform: scale(0);
 	margin-bottom: 15px;
-	font-size: 16px;
+	font-size: 11px;
 }
 
 .service:hover .description {
@@ -1010,6 +1025,10 @@ section {
 
 .footer .social-footer li:hover a {
 	color: #00a8ff;
+}
+.footer iframe{
+	border-radius 15px
+	width 100%
 }
 /* Form Control */
 
@@ -1432,6 +1451,8 @@ span.wpcf7-not-valid-tip {
 p.error
 	text-align center
 	color #CB2028
+p.success
+	color #00a8ff
 	
 .modal-content-info
 	color white
@@ -1440,7 +1461,7 @@ p.error
 	.sub-menu
 		display none
 		position absolute
-		width 100%
+		width 300px
 		padding .5rem
 		background-color white 
 		color #000
@@ -1456,4 +1477,25 @@ p.error
 			a
 				color #00a8ff !important
 
+.um-page-register
+.um-page-login
+	.main
+		text-align center
 
+.ad-description
+	position relative
+	padding: 0 1.5rem .5rem;
+.publicidad-item-img
+	background-repeat no-repeat
+	background-size cover
+	background-position center center
+	width 100%
+	height 235px
+.publicidad-link
+	position absolute
+	left 0
+	right 0
+	top 0
+	bottom 0
+	display block
+	z-index	2
