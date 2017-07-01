@@ -278,7 +278,7 @@ get_header(); ?>
 
                         
                         </p>
-                        <button  class="btn btn-blue btn-small">Ver más</button>
+                       <a href="<?php echo esc_url( home_url( '/soluciones-hoteleras' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
                     </div>
                 </div>
                
@@ -306,7 +306,7 @@ get_header(); ?>
                             Climatización y automatización. <br> 
                             Mantenimiento técnico y protección incendios.
                             </p>
-                        <a  href="<?php echo esc_url( home_url( '/capacitacion' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
+                        <a  href="<?php echo esc_url( home_url( '/servicios-tecnicos-de-ingenieria' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
                     </div>
                 </div>
             </div>
@@ -322,7 +322,7 @@ get_header(); ?>
                                     Higiene y seguridad alimentaria (HACCP).<br>
                                     Liderazgo, comunicación asertiva y trabajo en equipo.<br>
                                     </p>
-                        <a  href="<?php echo esc_url( home_url( '/oferta-y-empleo' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
+                        <a  href="<?php echo esc_url( home_url( '/soluciones-hoteleras' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -332,7 +332,7 @@ get_header(); ?>
                         </div>
                         <h4 class="heading">Empleos</h4>
                         <p class="description">Regístrate en Hotel Solutión y ten acceso a todas las ofertas de empleo, registra tu CV en nuestra plataforma y duplica la posibilidad de ser elegido, como empresa puedes subir tu oferta sin costo y facilitar la búsqueda.</p>
-                        <a  href="<?php echo esc_url( home_url( '/soluciones-hoteleres' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
+                        <a  href="<?php echo esc_url( home_url( '/ofertas' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -346,7 +346,7 @@ get_header(); ?>
                             Servicios turísticos.<br>
                             Rent a car. 
                             </p>
-                        <a  href="<?php echo esc_url( home_url( '/reclutamiento' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
+                        <a  href="<?php echo esc_url( home_url( '/espacio-publicitario' ) ); ?>" class="btn btn-blue btn-small">Ver más</a>
                     </div>
                 </div>
             </div>
