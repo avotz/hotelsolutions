@@ -8,7 +8,7 @@
  * different template.
  *
  * @link https://codex.wordpress.org/Template_Hierarchy
- * Template Name: Page Curriculum Edit
+ * Template Name: Page Aplicar Oferta
  * @package hotelsolutions
  */
 require_once ABSPATH.'wp-admin/includes/admin.php';
@@ -16,52 +16,67 @@ require_once(ABSPATH . "wp-admin" . '/includes/image.php');
 require_once(ABSPATH . "wp-admin" . '/includes/file.php');
 require_once(ABSPATH . "wp-admin" . '/includes/media.php');
 
- $query = new WP_Query( array( 'post_type' => 'curriculum', 'posts_per_page' => '-1' ) ); 
+um_fetch_user( get_current_user_id() );
+
+$first_name = um_user('first_name');
+$last_name = um_user('last_name');
+$last_name_2 = um_user('last_name_2');
+$phone = um_user('phone');
+$email = um_user('user_email');
+$reference = $_GET['of'];
+$offer_found = 0;
+
+ $query = new WP_Query( array( 'post_type' => 'oferta', 'posts_per_page' => '-1' ) ); 
  
- if ( $query->have_posts() ) : while ( $query->have_posts() ) : $query->the_post(); ?>
- 
-<?php
- 
-   if ( isset( $_GET['cv'] ) ) {
+     if ( $query->have_posts() ) : while ( $query->have_posts() ) : $query->the_post(); ?>
      
-    if ( $_GET['cv'] == $post->ID)
-    {
-        if(get_current_user_id() != $post->post_author)
-             wp_redirect( '/registra-tu-cv' );
+    <?php
+     
+       
+         
+       
+            if($reference  == rwmb_meta( 'rw_of_reference'))
+                $offer_found = 1;
+           
+          
+       
+    
+     
+    ?>
+     
+    <?php endwhile; endif; 
+     wp_reset_query(); 
 
-        $current_post = $post->ID;
-        $first_name = rwmb_meta( 'rw_cv_first_name');
-        $last_name = rwmb_meta( 'rw_cv_last_name');
-        $last_name_2 = rwmb_meta( 'rw_cv_last_name_2');
-        $phone = rwmb_meta( 'rw_cv_phone');
-        $email = rwmb_meta( 'rw_cv_email');
-        $country = rwmb_meta( 'rw_cv_country');
-        $city = rwmb_meta( 'rw_cv_city');
-        $nationality = rwmb_meta( 'rw_cv_nationality');
-        $salary = rwmb_meta( 'rw_cv_salary');
-        $salary_currency = rwmb_meta( 'rw_cv_salary_currency');
-        $unemployed = rwmb_meta( 'rw_cv_unemployed');
-        $job = rwmb_meta( 'rw_cv_job');
-        $job2 = rwmb_meta( 'rw_cv_job2');
-        $job3 = rwmb_meta( 'rw_cv_job3');
-        $work_experience = rwmb_meta( 'rw_cv_work_experience');
-        $rw_files = rwmb_meta( 'rw_cv_files');
-      
-    }
-}
+     if(!$offer_found)
+        wp_redirect( '/ofertas' );
+
+if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POST['action'] == "new_post") {
+    $error = "";
+
+    $query = new WP_Query( array( 'post_type' => 'candidato', 'posts_per_page' => '-1' ) ); 
  
-?>
- 
-<?php endwhile; endif; 
- wp_reset_query(); 
+     if ( $query->have_posts() ) : while ( $query->have_posts() ) : $query->the_post(); ?>
+     
+    <?php
+     
+       
+         
+       
+            if(get_current_user_id() == $post->post_author)
+                $error = "Ya estas aplicando para esta oferta!!";
+           
+          
+       
+    
+     
+    ?>
+     
+    <?php endwhile; endif; 
+     wp_reset_query(); 
 
-
-
-if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POST['action'] == "update_post") {
-
-    // Do some minor form validation to make sure there is content
+     // Do some minor form validation to make sure there is content
     if (isset($_POST['submit'])) {
-            $error = "";
+            //$error = "";
 
         if (!empty($_POST['first_name'])) {
             $first_name = $_POST['first_name'];
@@ -113,16 +128,8 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
      } else {
         $error .= "Por favor escribe en aspiraciones salariales <br />";
     }
-    /* if (!empty($_POST['unemployed'])) {
-            $unemployed = $_POST['unemployed'];
-     } else {
-        $error .= "Por favor escribe si estas desempleado <br />";
-    }*/
-     if (!empty($_POST['job'])) {
-            $job = $_POST['job'];
-     } else {
-        $error .= "Por favor escribe al menos un puesto en lo que te puedas desempeñar <br />";
-    }
+   
+  
 
         if (!empty($_POST['work_experience'])) {
             $work_experience = $_POST['work_experience'];
@@ -131,14 +138,15 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
     }
          $salary_currency = $_POST['salary_currency'];
          $unemployed = $_POST['unemployed'];
-         $job2 = $_POST['job2'];
-         $job3 = $_POST['job3'];
+         $availability_to_move = $_POST['availability_to_move'];
+        
+
         // IMAGE VALIDATION - CHECK IF THERE IS AN IMAGE AND THAT ITS THE RIGHT FILE TYPE AND RIGHT SIZE
         if ($_FILES) {
            // var_dump($_FILES);
             foreach ($_FILES as $file => $array) {
                 //Check if the $_FILES is set and if the size is > 0 (if =0 it's empty)
-              
+
                 if(isset($_FILES[$file]) && ($_FILES[$file]['size'] > 0)) {
 
                     /*$tmpName = $_FILES[$file]['tmp_name'];
@@ -166,7 +174,7 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
                      }
 
                 } else {
-                   // $error .= "Please add an file<br />";
+                    //$error .= "Please add an file<br />";
                 }
             } // end for each
         } // end if
@@ -181,19 +189,18 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
 
         // ADD THE FORM INPUT TO $new_post ARRAY
         //'CV-'.sanitize_title($first_name).'-'sanitize_title($last_name),
-        if (empty($error) && $current_post > 0) {
+        if (empty($error)) {
             $new_post = array(
-            'ID' => $current_post,
-            'post_title'    =>  'CV-'.$first_name.'-'.$last_name,
+            'post_title'    =>  $first_name.'-'.$last_name.'-Aplico para oferta '.$reference,
             'post_content'  =>  $work_experience,
             //'post_category' =>  array($_POST['cat']),  // Usable for custom taxonomies too
             'post_status'   =>  'publish',           // Choose: publish, preview, future, draft, etc.
-            'post_type' =>  'curriculum',  //'post',page' or use a custom post type if you want to
+            'post_type' =>  'candidato',  //'post',page' or use a custom post type if you want to
            
         );
 
         //SAVE THE POST
-        $pid = wp_update_post($new_post);
+        $pid = wp_insert_post($new_post);
 
         // wp_set_object_terms($pid, $terms, 'puesto', false); // este por que si el usuario no esta logueado
         //KEEPS OUR COMMA SEPARATED TAGS AS INDIVIDUAL
@@ -201,44 +208,32 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
 
 
         //ADD OUR CUSTOM FIELDS 
-        update_post_meta($pid, 'rw_cv_first_name', $first_name);
-        update_post_meta($pid, 'rw_cv_last_name', $last_name);
-        update_post_meta($pid, 'rw_cv_last_name_2', $last_name_2);
-        update_post_meta($pid, 'rw_cv_phone', $phone);
-        update_post_meta($pid, 'rw_cv_email', $email);
-        update_post_meta($pid, 'rw_cv_country', $country);
-        update_post_meta($pid, 'rw_cv_city', $city);
-        update_post_meta($pid, 'rw_cv_nationality', $nationality);
-        update_post_meta($pid, 'rw_cv_salary', $salary);
-        update_post_meta($pid, 'rw_cv_salary_currency', $salary_currency);
-        update_post_meta($pid, 'rw_cv_unemployed', $unemployed); 
-        update_post_meta($pid, 'rw_cv_job', $job);
-        update_post_meta($pid, 'rw_cv_job2', $job2); 
-        update_post_meta($pid, 'rw_cv_job3', $job3);
-        update_post_meta($pid, 'rw_cv_work_experience', $work_experience); 
+        update_post_meta($pid, 'rw_ca_first_name', $first_name);
+        update_post_meta($pid, 'rw_ca_last_name', $last_name);
+        update_post_meta($pid, 'rw_ca_last_name_2', $last_name_2);
+        update_post_meta($pid, 'rw_ca_phone', $phone);
+        update_post_meta($pid, 'rw_ca_email', $email);
+        update_post_meta($pid, 'rw_ca_country', $country);
+        update_post_meta($pid, 'rw_ca_city', $city);
+        update_post_meta($pid, 'rw_ca_nationality', $nationality);
+        update_post_meta($pid, 'rw_ca_salary', $salary);
+        update_post_meta($pid, 'rw_ca_salary_currency', $salary_currency);
+        update_post_meta($pid, 'rw_ca_unemployed', $unemployed); 
+        update_post_meta($pid, 'rw_ca_availability_to_move', $availability_to_move);
+        update_post_meta($pid, 'rw_ca_work_experience', $work_experience); 
+        update_post_meta($pid, 'rw_ca_reference', $reference); 
+       
         //add_post_meta($pid, 'rating', $winerating, true); 
 
             //INSERT OUR MEDIA ATTACHMENTS
       
             if ($_FILES) {
-
-                   
                 foreach ($_FILES as $file => $array) {
                  //$newupload = insert_attachment($file,$pid);
                   // $newupload returns the attachment id of the file that
                     // was just uploaded. Do whatever you want with that now.
-                         
-                           
-                       if(isset($_FILES[$file]) && ($_FILES[$file]['size'] > 0)) { //verifica que el campo file no venga vacio
 
-                         if ( !empty( $rw_files ) ) { // borramos lo archivo anteriores si sube uno nuevo
-                                foreach ( $rw_files as $rw_file ) {
-
-                                     delete_post_meta($pid, 'rw_cv_files', $rw_file['ID']); 
-                                }
-                            }
-                         
-
+                     if(isset($_FILES[$file]) && ($_FILES[$file]['size'] > 0)) { //verifica que el campo file no venga vacio
                         $file_return = wp_handle_upload($_FILES[$file], array('test_form' => false));
 
 
@@ -261,7 +256,7 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
 
                         $attachment_id = wp_insert_attachment( $attachment, $filename );
 
-                     
+                        var_dump($attachment_id);
                         
 
                         $attachment_data = wp_generate_attachment_metadata( $attachment_id, $filename );
@@ -271,9 +266,10 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
                         if( 0 < intval( $attachment_id ) ) {
                            // return $attachment_id;
 
-                           // update_post_meta($pid, 'rw_cv_files', $attachment_id);
-                            add_post_meta($pid, 'rw_cv_files', $attachment_id);
+                           // update_post_meta($pid, 'rw_ca_files', $attachment_id);
+                            add_post_meta($pid, 'rw_ca_files', $attachment_id);
                         }
+
                     }
                     
                 }
@@ -283,7 +279,29 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
 
              //REDIRECT TO THE NEW POST ON SAVE
             $link = get_permalink( $pid );
-            wp_redirect( '/registra-tu-cv' );
+            $success = "";
+
+            if($pid > 0)
+            {
+                $success = "Su archivo ha sido subido con éxito, por favor  conservé el número de referencia para que en caso de ser necesario pueda referirse a su solicitud indicando dicho número, gracias por confiar en Hotel Solutions. <b>Número de referencia de la oferta a la que has aplicado</b> ". $reference;
+
+                // $first_name = "";
+                // $last_name = "";
+                // $last_name_2 = "";
+                // $phone = "";
+                // $email = "";
+                $country = "";
+                $city = "";
+                $nationality = "";
+                $salary = "";
+                $salary_currency = "₡";
+                $unemployed = 1;
+                $availability_to_move = 1;
+                $work_experience = "";
+
+               //wp_redirect( '/aplicar/?of='.$reference );
+            }
+           
 
         } // END SAVING POST
     } // END VALIDATION
@@ -344,15 +362,19 @@ get_header(); ?>
                             echo '<p class="success">' . $success . '</p>';
                         }
                     ?>
-                       
+              
 
         <!-- WINE RATING FORM -->
 
         <div class="form">
-        <form id="update_post" name="update_post" method="post" action=""  enctype="multipart/form-data">
+        <form id="new_post" name="new_post" method="post" action=""  enctype="multipart/form-data">
             <!-- post name -->
             <div class="columns">
                 <div class="column">
+                        <p>
+                            <label for="first_name">Numero de Referencia de Oferta:</label>
+                            <input type="text" id="reference" value="<?php echo isset($reference) ? $reference : '' ?>"  name="reference" required readonly/>
+                        </p>
                      <p>
                             <label for="first_name">Nombre:</label>
                             <input type="text" id="first_name" value="<?php echo isset($first_name) ? $first_name : '' ?>"  name="first_name" required />
@@ -385,7 +407,7 @@ get_header(); ?>
                         </p>
                           <p>
                             <label for="nationality">Nacionalidad:</label>
-                            <input type="text" id="nationality" value="<?php echo isset($nationality) ? $nationality : '' ?>" name="nationality" required />
+                            <input type="text" id="nationality" value="<?php echo isset($nationality) ? $nationality : '' ?>"  name="nationality" required />
                         </p>
 
                 </div>
@@ -394,25 +416,25 @@ get_header(); ?>
                   
                     <p>
                         <label for="salary">Aspiraciones Salariales:</label>
-                        <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>"  name="salary" required />
+                        <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>" name="salary" required />
                         <select name="salary_currency" id="salary_currency">
-                            <option value="₡" <?php if(isset($salary_currency) && $salary_currency == '₡') echo 'selected'; ?> >Colones</option>
-                            <option value="$" <?php if(isset($salary_currency) && $salary_currency == '$') echo 'selected'; ?>>Dolares</option>
+                            <option value="₡">Colones</option>
+                            <option value="$">Dolares</option>
                         </select>
                         
                     </p>
                      
                      <p>
                         <label for="unemployed">Estas desempleado actualmente:</label>
-                        <input type="radio" name="unemployed" value="1" <?php if(isset($unemployed) && $unemployed == '1') echo 'checked'; ?>> Si
-                        <input type="radio" name="unemployed" value="0" <?php if(isset($unemployed) && $unemployed == '0') echo 'checked'; ?>> No<br>
+                        <input type="radio" name="unemployed" value="1" checked> Si
+                        <input type="radio" name="unemployed" value="0"> No<br>
 
                     </p>
-                     <p>
-                        <label for="job">Posiciones en las que puede  desempeñarse:</label>
-                        <input type="text" id="job" value="<?php echo isset($job) ? $job : '' ?>"  name="job" required />
-                        <input type="text" id="job2" value="<?php echo isset($job2) ? $job2 : '' ?>"  name="job2"  />
-                        <input type="text" id="job3" value="<?php echo isset($job3) ? $job3 : '' ?>"  name="job3"  />
+                      <p>
+                        <label for="availability_to_move">Disponibilidad para trasladarse:</label>
+                        <input type="radio" name="availability_to_move" value="1" checked> Si
+                        <input type="radio" name="availability_to_move" value="0"> No<br>
+
                     </p>
                     
                       <p>
@@ -420,21 +442,13 @@ get_header(); ?>
                         <textarea id="work_experience"  name="work_experience" cols="80" rows="10" required><?php echo isset($work_experience) ? $work_experience : '' ?></textarea>
                       </p>
 
-                     <h4> Tus archivos </h4>
-                     <ul>
-                         
-                    
-                    <?php foreach ($rw_files as $rw_file)  : ?>
-                      <li> <a href="/<?php echo $rw_file['url'] ?>" target="_blank"><?php echo $rw_file['name'] ?></a></li>
-                   <?php endforeach; ?>
-                        </ul>
                     <!-- images -->
                     <p>
-                        <label for="bottle_front">Subir Archivo 1</label>
-                        <input type="file" name="cv1" id="cv1"   />
+                        <label for="bottle_front">Archivo 1</label>
+                        <input type="file" name="cv1" id="cv1"  required />
                     </p>
                     <p>
-                        <label for="bottle_front">Subir Archivo 2</label>
+                        <label for="bottle_front">Archivo 2</label>
                         <input type="file" name="cv2" id="cv2"  />
                     </p>
 
@@ -444,11 +458,12 @@ get_header(); ?>
            
             
              <p>
-                <input type="submit" value="Actualizar"  id="submit" name="submit" class="btn btn-blue" />
+                <input type="submit" value="Enviar"  id="submit" name="submit" class="btn btn-blue" />
+               
              </p>
 
-            <input type="hidden" name="action" value="update_post" />
-            <?php wp_nonce_field( 'update-post' ); ?>
+            <input type="hidden" name="action" value="new_post" />
+            <?php wp_nonce_field( 'new-post' ); ?>
         </form>
 
             <!-- post Category -->

@@ -1504,3 +1504,40 @@ p.success
 	bottom 0
 	display block
 	z-index	2
+
+.offers
+	&-container
+		display flex 
+		flex-wrap wrap
+		justify-content space-between
+	
+	&-item 
+		width 100%
+		background #00a8ff
+		padding 1rem
+		color white
+		border-radius 10px
+		.btn 
+			background #333333 !important
+			
+@media screen and (min-width: 768px)
+	.offers
+		&-item 
+			width 32%
+			
+
+.offer
+	&-info
+		font-size 1rem 
+		div 
+			margin-bottom .5rem
+		
+	&-date
+		text-align center
+		background-color white 
+		color #00a8ff
+		border-radius 10px
+	&-footer 
+		display flex 
+		flex-wrap wrap
+		justify-content space-between

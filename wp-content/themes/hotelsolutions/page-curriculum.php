@@ -278,7 +278,7 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
                 $city = "";
                 $nationality = "";
                 $salary = "";
-                $salary_currency = "Colones";
+                $salary_currency = "₡";
                 $unemployed = 1;
                 $job = "";
                 $job2 = "";
@@ -342,7 +342,7 @@ get_header(); ?>
             
             <?php
                         if (!empty($error)) {
-                            echo '<p class="error"><strong>Your message was NOT sent<br/> The following error(s) returned:</strong><br/>' . $error . '</p>';
+                            echo '<p class="error"><strong>No Enviado <br/> Revisa los siguientes errores:</strong><br/>' . $error . '</p>';
                         } elseif (!empty($success)) {
                             echo '<p class="success">' . $success . '</p>';
                         }
@@ -358,37 +358,37 @@ get_header(); ?>
                 <div class="column">
                      <p>
                             <label for="first_name">Nombre:</label>
-                            <input type="text" id="first_name" value="<?php echo isset($first_name) ? $first_name : '' ?>" tabindex="5" name="first_name" required />
+                            <input type="text" id="first_name" value="<?php echo isset($first_name) ? $first_name : '' ?>"  name="first_name" required />
                         </p>
                         <p>
                             <label for="last_name">Primer Apellido:</label>
-                            <input type="text" id="last_name" value="<?php echo isset($last_name) ? $last_name : '' ?>" tabindex="6" name="last_name" required />
+                            <input type="text" id="last_name" value="<?php echo isset($last_name) ? $last_name : '' ?>"  name="last_name" required />
                         </p>
                         <p>
                             <label for="last_name_2">Segundo Apellido:</label>
-                            <input type="text" id="last_name_2" value="<?php echo isset($last_name_2) ? $last_name_2 : '' ?>" tabindex="7" name="last_name_2" required />
+                            <input type="text" id="last_name_2" value="<?php echo isset($last_name_2) ? $last_name_2 : '' ?>"  name="last_name_2" required />
                         </p>
                         <p>
                             <label for="phone">Teléfonos:</label>
-                            <input type="text" id="phone" value="<?php echo isset($phone) ? $phone : '' ?>" tabindex="8" name="phone" required />
+                            <input type="text" id="phone" value="<?php echo isset($phone) ? $phone : '' ?>"  name="phone" required />
                         </p>
 
                          <!-- wine Rating -->
                         <p>
                             <label for="email">Correo</label>
-                            <input type="email" value="<?php echo isset($email) ? $email : '' ?>" id="email" tabindex="9" name="email" required />
+                            <input type="email" value="<?php echo isset($email) ? $email : '' ?>" id="email"  name="email" required />
                         </p>
                         <p>
                             <label for="country">País de residencia:</label>
-                            <input type="text" id="country" value="<?php echo isset($country) ? $country : '' ?>" tabindex="10" name="country" required />
+                            <input type="text" id="country" value="<?php echo isset($country) ? $country : '' ?>"  name="country" required />
                         </p>
                         <p>
                             <label for="city">Ciudad:</label>
-                            <input type="text" id="city" value="<?php echo isset($city) ? $city : '' ?>" tabindex="11" name="city" required />
+                            <input type="text" id="city" value="<?php echo isset($city) ? $city : '' ?>"  name="city" required />
                         </p>
                           <p>
                             <label for="nationality">Nacionalidad:</label>
-                            <input type="text" id="nationality" value="<?php echo isset($nationality) ? $nationality : '' ?>" tabindex="12" name="nationality" required />
+                            <input type="text" id="nationality" value="<?php echo isset($nationality) ? $nationality : '' ?>"  name="nationality" required />
                         </p>
 
                 </div>
@@ -397,10 +397,10 @@ get_header(); ?>
                   
                     <p>
                         <label for="salary">Aspiraciones Salariales:</label>
-                        <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>" tabindex="13" name="salary" required />
+                        <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>" name="salary" required />
                         <select name="salary_currency" id="salary_currency">
-                            <option value="Colones">Colones</option>
-                            <option value="Dolares">Dolares</option>
+                            <option value="₡">Colones</option>
+                            <option value="$">Dolares</option>
                         </select>
                         
                     </p>
@@ -413,24 +413,24 @@ get_header(); ?>
                     </p>
                      <p>
                         <label for="job">Posiciones en las que puede  desempeñarse:</label>
-                        <input type="text" id="job" value="<?php echo isset($job) ? $job : '' ?>" tabindex="14" name="job" required />
-                        <input type="text" id="job2" value="<?php echo isset($job2) ? $job2 : '' ?>" tabindex="15" name="job2"  />
-                        <input type="text" id="job3" value="<?php echo isset($job3) ? $job3 : '' ?>" tabindex="16" name="job3"  />
+                        <input type="text" id="job" value="<?php echo isset($job) ? $job : '' ?>"  name="job" required />
+                        <input type="text" id="job2" value="<?php echo isset($job2) ? $job2 : '' ?>"  name="job2"  />
+                        <input type="text" id="job3" value="<?php echo isset($job3) ? $job3 : '' ?>"  name="job3"  />
                     </p>
                     
                       <p>
                         <label for="work_experience">Comenta sobre tu experiencia laboral y estudios realizados:</label>
-                        <textarea id="work_experience" tabindex="17" name="work_experience" cols="80" rows="10" required><?php echo isset($work_experience) ? $work_experience : '' ?></textarea>
+                        <textarea id="work_experience"  name="work_experience" cols="80" rows="10" required><?php echo isset($work_experience) ? $work_experience : '' ?></textarea>
                       </p>
 
                     <!-- images -->
                     <p>
                         <label for="bottle_front">Archivo 1</label>
-                        <input type="file" name="cv1" id="cv1" tabindex="18" required />
+                        <input type="file" name="cv1" id="cv1"  required />
                     </p>
                     <p>
                         <label for="bottle_front">Archivo 2</label>
-                        <input type="file" name="cv2" id="cv2" tabindex="19" />
+                        <input type="file" name="cv2" id="cv2"  />
                     </p>
 
            
@@ -439,7 +439,7 @@ get_header(); ?>
            
             
              <p>
-                <input type="submit" value="Enviar" tabindex="40" id="submit" name="submit" class="btn btn-blue" />
+                <input type="submit" value="Enviar"  id="submit" name="submit" class="btn btn-blue" />
                 <?php
                 $user_id = get_current_user_id();
               

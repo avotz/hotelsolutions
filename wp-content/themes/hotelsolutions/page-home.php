@@ -8,7 +8,7 @@
  * different template.
  *
  * @link https://codex.wordpress.org/Template_Hierarchy
- * Template Name: Page Home
+ * Template Name: Page Ofertas
  * @package hotelsolutions
  */
 

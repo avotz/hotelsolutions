@@ -90,6 +90,11 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
      } else {
         $error .= "Por favor escribe la experiencia requerida <br />";
     }
+     if (!empty($_POST['formation'])) {
+            $formation = $_POST['formation'];
+     } else {
+        $error .= "Por favor escribe la formación requerida <br />";
+    }
 
      if (!empty($_POST['country'])) {
             $country = $_POST['country'];
@@ -201,6 +206,7 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
         update_post_meta($pid, 'rw_of_job', $job);
         update_post_meta($pid, 'rw_of_vacant', $vacant);
         update_post_meta($pid, 'rw_of_experience', $experience);
+        update_post_meta($pid, 'rw_of_formation', $formation);
         update_post_meta($pid, 'rw_of_country', $country);
         update_post_meta($pid, 'rw_of_city', $city);
         update_post_meta($pid, 'rw_of_incorporation', $incorporation);
@@ -280,11 +286,12 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
                 $job = "";
                 $vacant = "";
                 $experience = "";
+                $formation = "";
                 $country = "";
                 $city = "";
                 $incorporation = "";
                 $salary = "";
-                $salary_currency = "Colones";
+                $salary_currency = "₡";
                 $hotel_type = 'c';
                 $other_requirements = "";
               
@@ -346,7 +353,7 @@ get_header(); ?>
             
             <?php
                         if (!empty($error)) {
-                            echo '<p class="error"><strong>Your message was NOT sent<br/> The following error(s) returned:</strong><br/>' . $error . '</p>';
+                            echo '<p class="error"><strong>No Enviado <br/> Revisa los siguientes errores:</strong><br/>' . $error . '</p>';
                         } elseif (!empty($success)) {
                             echo '<p class="success">' . $success . '</p>';
                         }
@@ -362,42 +369,42 @@ get_header(); ?>
                 <div class="column">
                          <p>
                             <label for="company_name">Nombre de la empresa:</label>
-                            <input type="text" id="company_name" value="<?php echo isset($company_name) ? $company_name : '' ?>" tabindex="5" name="company_name" required />
+                            <input type="text" id="company_name" value="<?php echo isset($company_name) ? $company_name : '' ?>"  name="company_name" required />
                         </p>
                         <p>
                             <label for="company_cedula">Cédula Jurídica:</label>
-                            <input type="text" id="company_cedula" value="<?php echo isset($company_cedula) ? $company_cedula : '' ?>" tabindex="6" name="company_cedula" required />
+                            <input type="text" id="company_cedula" value="<?php echo isset($company_cedula) ? $company_cedula : '' ?>"  name="company_cedula" required />
                         </p>
                         <p>
                             <label for="company_phone">Teléfono Empresa:</label>
-                            <input type="text" id="company_phone" value="<?php echo isset($company_phone) ? $company_phone : '' ?>" tabindex="7" name="company_phone" required />
+                            <input type="text" id="company_phone" value="<?php echo isset($company_phone) ? $company_phone : '' ?>"  name="company_phone" required />
                         </p>
                         <p>
                             <label for="first_name">Nombre de la persona que sube la oferta:</label>
-                            <input type="text" id="first_name" value="<?php echo isset($first_name) ? $first_name : '' ?>" tabindex="5" name="first_name" required />
+                            <input type="text" id="first_name" value="<?php echo isset($first_name) ? $first_name : '' ?>"  name="first_name" required />
                         </p>
                         <p>
                             <label for="last_name">Primer Apellido:</label>
-                            <input type="text" id="last_name" value="<?php echo isset($last_name) ? $last_name : '' ?>" tabindex="6" name="last_name" required />
+                            <input type="text" id="last_name" value="<?php echo isset($last_name) ? $last_name : '' ?>"  name="last_name" required />
                         </p>
                         <p>
                             <label for="last_name_2">Segundo Apellido:</label>
-                            <input type="text" id="last_name_2" value="<?php echo isset($last_name_2) ? $last_name_2 : '' ?>" tabindex="7" name="last_name_2" required />
+                            <input type="text" id="last_name_2" value="<?php echo isset($last_name_2) ? $last_name_2 : '' ?>"  name="last_name_2" required />
                         </p>
                        
                          <!-- wine Rating -->
                         <p>
                             <label for="email">Correo</label>
-                            <input type="email" value="<?php echo isset($email) ? $email : '' ?>" id="email" tabindex="9" name="email" required />
+                            <input type="email" value="<?php echo isset($email) ? $email : '' ?>" id="email"  name="email" required />
                         </p>
                         
                          <p>
                             <label for="job">Puesto:</label>
-                             <input type="text" id="job" value="<?php echo isset($job) ? $job : '' ?>" tabindex="10" name="job" required />
+                             <input type="text" id="job" value="<?php echo isset($job) ? $job : '' ?>"  name="job" required />
                         </p>
                          <p>
                             <label for="vacant">Vacantes Disponibles:</label>
-                             <input type="number" id="vacant" value="<?php echo isset($vacant) ? $vacant : '' ?>" tabindex="10" name="vacant" required min="1" />
+                             <input type="number" id="vacant" value="<?php echo isset($vacant) ? $vacant : '' ?>"  name="vacant" required min="1" />
                         </p>
                       
                         
@@ -406,7 +413,12 @@ get_header(); ?>
                 <div class="column">
                           <p>
                             <label for="experience">Experiencia Requerida:</label>
-                            <input type="text" id="experience" value="<?php echo isset($experience) ? $experience : '' ?>" tabindex="10" name="experience" required />
+                            <input type="text" id="experience" value="<?php echo isset($experience) ? $experience : '' ?>"  name="experience" required />
+
+                        </p>
+                         <p>
+                            <label for="formation">Formación Requerida:</label>
+                            <input type="text" id="formation" value="<?php echo isset($formation) ? $formation : '' ?>"  name="formation" required />
 
                         </p>
                      
@@ -422,20 +434,20 @@ get_header(); ?>
                      
                         <p>
                             <label for="country">País:</label>
-                            <input type="text" id="country" value="<?php echo isset($country) ? $country : '' ?>" tabindex="11" name="country" required />
+                            <input type="text" id="country" value="<?php echo isset($country) ? $country : '' ?>"  name="country" required />
                         </p>
                         <p>
                             <label for="city">Ciudad:</label>
-                            <input type="text" id="city" value="<?php echo isset($city) ? $city : '' ?>" tabindex="11" name="city" required />
+                            <input type="text" id="city" value="<?php echo isset($city) ? $city : '' ?>"  name="city" required />
                         </p>
 
                   
                     <p>
                         <label for="salary">Salario:</label>
-                        <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>" tabindex="13" name="salary" required />
+                        <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>"  name="salary" required />
                         <select name="salary_currency" id="salary_currency">
-                            <option value="Colones">Colones</option>
-                            <option value="Dolares">Dolares</option>
+                            <option value="₡">Colones</option>
+                            <option value="$">Dolares</option>
                         </select>
                         
                     </p>
@@ -443,23 +455,23 @@ get_header(); ?>
                     
                      <p>
                         <label for="incorporation">Incorporación:</label>
-                        <input type="text" id="incorporation" value="<?php echo isset($incorporation) ? $incorporation : '' ?>" tabindex="14" name="incorporation" required />
+                        <input type="text" id="incorporation" value="<?php echo isset($incorporation) ? $incorporation : '' ?>"  name="incorporation" required />
                         
                     </p>
                     
                       <p>
                         <label for="other_requirements">Otros Requisitos:</label>
-                        <textarea id="other_requirements" tabindex="17" name="other_requirements" cols="80" rows="10" required><?php echo isset($other_requirements) ? $other_requirements : '' ?></textarea>
+                        <textarea id="other_requirements"  name="other_requirements" cols="80" rows="10" required><?php echo isset($other_requirements) ? $other_requirements : '' ?></textarea>
                       </p>
 
                     <!-- images -->
                     <p>
                         <label for="bottle_front">Archivo 1</label>
-                        <input type="file" name="of1" id="of1" tabindex="18" required />
+                        <input type="file" name="of1" id="of1"  required />
                     </p>
                     <p>
                         <label for="bottle_front">Archivo 2</label>
-                        <input type="file" name="of2" id="of2" tabindex="19" />
+                        <input type="file" name="of2" id="of2"  />
                     </p>
 
            
@@ -468,7 +480,7 @@ get_header(); ?>
            
             
              <p>
-                <input type="submit" value="Enviar" tabindex="40" id="submit" name="submit" class="btn btn-blue" />
+                <input type="submit" value="Enviar"  id="submit" name="submit" class="btn btn-blue" />
                 
              </p>
 
