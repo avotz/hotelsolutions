@@ -107,9 +107,9 @@ add_action( 'widgets_init', 'hotelsolutions_widgets_init' );
 function hotelsolutions_scripts() {
 	wp_enqueue_style( 'hotelsolutions-style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'hotelsolutions-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+	//wp_enqueue_script( 'hotelsolutions-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
-	wp_enqueue_script( 'hotelsolutions-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+	//wp_enqueue_script( 'hotelsolutions-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -124,17 +124,28 @@ function hotelsolutions_contact_menu_atts( $atts, $item, $args )
 {
   // The ID of the target menu item
   $menu_target_cont = 105;
-  $menu_target_curr = 109;
+  $menu_target_curr = 297;
   // inspect $item
   if ($item->ID == $menu_target_cont) {
     $atts['data-toggle'] = 'modal';
     $atts['data-target'] = '#modal1';
   }
-  /*if ($item->ID == $menu_target_curr) {
-    $atts['class'] = 'btn btn-blue';
-  }*/
+  if ($item->ID == $menu_target_curr) {
+    $atts['class'] = 'btn btn-oscuro';
+  }
   return $atts;
 }
+
+function mailtrap($phpmailer) {
+  $phpmailer->isSMTP();
+  $phpmailer->Host = 'smtp.mailtrap.io';
+  $phpmailer->SMTPAuth = true;
+  $phpmailer->Port = 2525;
+  $phpmailer->Username = '2dc54a8dfa9489';
+  $phpmailer->Password = '95bc1229416301';
+}
+
+add_action('phpmailer_init', 'mailtrap');
 /**
  * Implement the Custom Header feature.
  */

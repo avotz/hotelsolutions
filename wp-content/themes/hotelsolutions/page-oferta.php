@@ -158,7 +158,7 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
                 if(in_array($uploaded_file_type, $allowed_file_types)) {
 
                 } else { // wrong file type
-                $error .= "Please upload a JPG, GIF, PNG or PDF file<br />";
+                $error .= "Por favor sube archivtos de tipo JPG, GIF, PNG o PDF<br />";
                      }
 
                 } else {
@@ -466,11 +466,11 @@ get_header(); ?>
 
                     <!-- images -->
                     <p>
-                        <label for="bottle_front">Archivo 1</label>
+                        <label for="bottle_front">Archivo 1 (JPG, GIF, PNG o PDF)</label>
                         <input type="file" name="of1" id="of1"  required />
                     </p>
                     <p>
-                        <label for="bottle_front">Archivo 2</label>
+                        <label for="bottle_front">Archivo 2 (JPG, GIF, PNG o PDF)</label>
                         <input type="file" name="of2" id="of2"  />
                     </p>
 

@@ -588,6 +588,22 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
     return $meta_boxes;
 }
 
+add_action( 'save_post', 'send_notification', 100, 3 );
+function send_notification( $post_id, $post, $update ) {
+    if ( $post->post_status == 'publish' && $post->post_type == 'candidato' ) {
+        $subscribers = get_users( array ( 'role' => 'admin' ) );
+        $emails      = array ();
+
+        foreach ( $subscribers as $subscriber )
+            $emails[] = $subscriber->user_email;
+
+        $body = sprintf( 'Un usuario aplicó para una oferta de trabajo, por favor revisar!');
+        $body .= sprintf( ' Usuario: <%s>', $post->post_title);
+
+        wp_mail( $emails, 'Alguien aplicó para una oferta de trabajo!', $body );
+        }
+}
+
 add_action( 'save_post', 'auto_number', 100, 3 );
 function auto_number( $post_id, $post, $update ) {
     if ( $post->post_status == 'publish' && $post->post_type == 'oferta' ) {
