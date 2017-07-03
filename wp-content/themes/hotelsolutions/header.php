@@ -46,7 +46,7 @@
 	              ) 
 	          ); 
 	          ?>
-			
+			<?php echo do_shortcode('[gtranslate]'); ?>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->

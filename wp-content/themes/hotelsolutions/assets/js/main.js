@@ -33,9 +33,9 @@ jQuery(function($) {
 		});
 		
 		// Typing Intro Init
-		$(".typed").typewriter({
+		/*$(".typed").typewriter({
 			speed: 60
-		});
+		});*/
 
 		// Sliders Init
 		$('.owl-schedule').owlCarousel({

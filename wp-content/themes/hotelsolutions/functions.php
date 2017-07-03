@@ -136,14 +136,14 @@ function hotelsolutions_contact_menu_atts( $atts, $item, $args )
   return $atts;
 }
 
-function mailtrap($phpmailer) {
+/*function mailtrap($phpmailer) {
   $phpmailer->isSMTP();
   $phpmailer->Host = 'mail.perez-group.com';
   $phpmailer->SMTPAuth = true;
   $phpmailer->Port = 25;
   $phpmailer->Username = 'mariopc';
   $phpmailer->Password = 'M.junior13';
-}
+}*/
 
 add_action('phpmailer_init', 'mailtrap');
 /**
