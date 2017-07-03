@@ -596,7 +596,8 @@ function send_notification( $post_id, $post, $update ) {
 
         foreach ( $subscribers as $subscriber )
             $emails[] = $subscriber->user_email;
-
+        var_dump($emails);
+        exit();
         // $body = sprintf( 'Un usuario aplicó para una oferta de trabajo, por favor revisar!');
         // $body .= sprintf( ' Usuario: <%s>', $post->post_title);
         $body = sprintf( 'Hey there is a new entry!
