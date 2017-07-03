@@ -591,7 +591,7 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
 add_action( 'save_post', 'send_notification', 100, 3 );
 function send_notification( $post_id, $post, $update ) {
     if ( $post->post_status == 'publish' && $post->post_type == 'candidato' ) {
-        $subscribers = get_users( array ( 'role' => 'admin' ) );
+        $subscribers = get_users('role=admin');//get_users( array ( 'role' => 'admin' ) );role=subscriber
         $emails      = array ();
         var_dump($subscribers);
         exit();
