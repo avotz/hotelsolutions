@@ -591,19 +591,15 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
 add_action( 'save_post', 'send_notification', 100, 3 );
 function send_notification( $post_id, $post, $update ) {
     if ( $post->post_status == 'publish' && $post->post_type == 'candidato' ) {
-        $subscribers = get_users('role=subscriber');//get_users( array ( 'role' => 'admin' ) );role=subscriber
+        $subscribers = get_users( array ( 'role' => 'administrator' ) );
         $emails      = array ();
-        var_dump($subscribers);
-        exit();
+      
         foreach ( $subscribers as $subscriber )
             $emails[] = $subscriber->user_email;
        
-        // $body = sprintf( 'Un usuario aplicó para una oferta de trabajo, por favor revisar!');
-        // $body .= sprintf( ' Usuario: <%s>', $post->post_title);
-        $body = sprintf( 'Hey there is a new entry!
-            See <%s>',
-            get_permalink( $post )
-        );
+       $body = sprintf( 'Un usuario aplicó para una oferta de trabajo, por favor revisar!');
+       $body .= sprintf( ' Usuario: <%s>', $post->post_title);
+      
 
         wp_mail( $emails, 'Alguien aplicó para una oferta de trabajo!', $body );
         }
