@@ -15,6 +15,8 @@ require_once ABSPATH.'wp-admin/includes/admin.php';
 require_once(ABSPATH . "wp-admin" . '/includes/image.php');
 require_once(ABSPATH . "wp-admin" . '/includes/file.php');
 require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+require_once(ABSPATH . "wp-content" . '/themes/hotelsolutions/countries.php');
+require(ABSPATH . "wp-content" . '/themes/hotelsolutions/recaptcha/src/autoload.php');
 
 um_fetch_user( get_current_user_id() );
 
@@ -123,10 +125,30 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
      } else {
         $error .= "Por favor escribe en otros requisitos<br />";
     }
+
+     if (!empty($_POST['terms'])) {
+            $terms = $_POST['terms'];
+     } else {
+        $error .= "Por favor acepta los términos y condiciones <br />";
+    }
+
          $salary_currency = $_POST['salary_currency'];
          $hotel_type = $_POST['hotel_type'];
        
-       
+    //captcha
+    $secret = '6LcuNSgUAAAAAI1dYU0fwtd1bClTFcIbBPE4Og6z';
+    $gRecaptchaResponse = $_POST['g-recaptcha-response'];
+
+    $recaptcha = new \ReCaptcha\ReCaptcha($secret);
+
+    $resp = $recaptcha->verify($gRecaptchaResponse);
+    if ($resp->isSuccess()) {
+        // verified!
+        // if Domain Name Validation turned off don't forget to check hostname field
+        // if($resp->getHostName() === $_SERVER['SERVER_NAME']) {  }
+    } else {
+       $error .= 'Verifica que eres una persona resolviendo el Captcha'; //$resp->getErrorCodes();
+    }   
         
 
         // IMAGE VALIDATION - CHECK IF THERE IS AN IMAGE AND THAT ITS THE RIGHT FILE TYPE AND RIGHT SIZE
@@ -152,13 +174,13 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
                 $uploaded_file_type = $arr_file_type['type'];
 
                  // Set an array containing a list of acceptable formats
-                $allowed_file_types = array('image/jpg','image/jpeg','image/gif','image/png','application/pdf');
+                $allowed_file_types = array('image/jpg','image/jpeg','image/gif','image/png','application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 
                  // If the uploaded file is the right format
                 if(in_array($uploaded_file_type, $allowed_file_types)) {
 
                 } else { // wrong file type
-                $error .= "Por favor sube archivtos de tipo JPG, GIF, PNG o PDF<br />";
+                $error .= "Por favor sube archivtos de tipo JPG, GIF, PNG, PDF o Word<br />";
                      }
 
                 } else {
@@ -406,17 +428,17 @@ get_header(); ?>
                             <label for="vacant">Vacantes Disponibles:</label>
                              <input type="number" id="vacant" value="<?php echo isset($vacant) ? $vacant : '' ?>"  name="vacant" required min="1" />
                         </p>
-                      
-                        
-
-                </div>
-                <div class="column">
-                          <p>
+                        <p>
                             <label for="experience">Experiencia Requerida:</label>
                             <input type="text" id="experience" value="<?php echo isset($experience) ? $experience : '' ?>"  name="experience" required />
 
                         </p>
-                         <p>
+                         
+                        
+
+                </div>
+                <div class="column">
+                        <p>
                             <label for="formation">Formación Requerida:</label>
                             <input type="text" id="formation" value="<?php echo isset($formation) ? $formation : '' ?>"  name="formation" required />
 
@@ -434,7 +456,13 @@ get_header(); ?>
                      
                         <p>
                             <label for="country">País:</label>
-                            <input type="text" id="country" value="<?php echo isset($country) ? $country : '' ?>"  name="country" required />
+                            <select name="country" id="country" required>
+                                    <?php foreach ($array_paises as $pais) {
+                                        echo '<option value="'. $pais .'">'. $pais .'</option>';
+                                    }
+                                ?>
+                               
+                            </select>
                         </p>
                         <p>
                             <label for="city">Ciudad:</label>
@@ -466,11 +494,11 @@ get_header(); ?>
 
                     <!-- images -->
                     <p>
-                        <label for="bottle_front">Archivo 1 (JPG, GIF, PNG o PDF)</label>
+                        <label for="bottle_front">Archivo 1 (JPG, GIF, PNG, PDF o Word)</label>
                         <input type="file" name="of1" id="of1"  required />
                     </p>
                     <p>
-                        <label for="bottle_front">Archivo 2 (JPG, GIF, PNG o PDF)</label>
+                        <label for="bottle_front">Archivo 2 (JPG, GIF, PNG, PDF o Word)</label>
                         <input type="file" name="of2" id="of2"  />
                     </p>
 
@@ -478,7 +506,14 @@ get_header(); ?>
                 </div>
             </div>
            
-            
+              <p>
+                <label for="terms">Aceptas términos y condiciones:</label>
+                <input type="checkbox" name="terms" required>
+               
+
+            </p>
+            <div class="g-recaptcha" data-sitekey="6LcuNSgUAAAAAFu3n1ZHTnogc4EVB_jk1w6IVo2r"></div>
+             <p>
              <p>
                 <input type="submit" value="Enviar"  id="submit" name="submit" class="btn btn-blue" />
                 

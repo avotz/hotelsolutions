@@ -15,6 +15,8 @@ require_once ABSPATH.'wp-admin/includes/admin.php';
 require_once(ABSPATH . "wp-admin" . '/includes/image.php');
 require_once(ABSPATH . "wp-admin" . '/includes/file.php');
 require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+require_once(ABSPATH . "wp-content" . '/themes/hotelsolutions/countries.php');
+require(ABSPATH . "wp-content" . '/themes/hotelsolutions/recaptcha/src/autoload.php');
 
 um_fetch_user( get_current_user_id() );
 
@@ -37,7 +39,7 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
          
        
             if(get_current_user_id() == $post->post_author)
-                $error = "Ya tiene un curriculum creado con esta cuenta, Verifica?";
+                $error = "Ya tiene un curriculum creado con esta cuenta, Verifica?<br />";
            
           
        
@@ -102,6 +104,11 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
      } else {
         $error .= "Por favor escribe en aspiraciones salariales <br />";
     }
+    if (!empty($_POST['terms'])) {
+            $terms = $_POST['terms'];
+     } else {
+        $error .= "Por favor acepta los términos y condiciones <br />";
+    }
     /*if (!empty($_POST['unemployed'])) {
             $unemployed = $_POST['unemployed'];
      } else {
@@ -119,10 +126,28 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
      } else {
         $error .= "Por favor escribe en experiencia laboral<br />";
     }
+
+
+
          $salary_currency = $_POST['salary_currency'];
          $unemployed = $_POST['unemployed'];
          $job2 = $_POST['job2'];
          $job3 = $_POST['job3'];
+
+    //captcha
+    $secret = '6LcuNSgUAAAAAI1dYU0fwtd1bClTFcIbBPE4Og6z';
+    $gRecaptchaResponse = $_POST['g-recaptcha-response'];
+
+    $recaptcha = new \ReCaptcha\ReCaptcha($secret);
+
+    $resp = $recaptcha->verify($gRecaptchaResponse);
+    if ($resp->isSuccess()) {
+        // verified!
+        // if Domain Name Validation turned off don't forget to check hostname field
+        // if($resp->getHostName() === $_SERVER['SERVER_NAME']) {  }
+    } else {
+       $error .= 'Verifica que eres una persona resolviendo el Captcha'; //$resp->getErrorCodes();
+    }
         
 
         // IMAGE VALIDATION - CHECK IF THERE IS AN IMAGE AND THAT ITS THE RIGHT FILE TYPE AND RIGHT SIZE
@@ -148,13 +173,13 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
                 $uploaded_file_type = $arr_file_type['type'];
 
                  // Set an array containing a list of acceptable formats
-                $allowed_file_types = array('image/jpg','image/jpeg','image/gif','image/png','application/pdf');
+                $allowed_file_types = array('image/jpg','image/jpeg','image/gif','image/png','application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 
                  // If the uploaded file is the right format
                 if(in_array($uploaded_file_type, $allowed_file_types)) {
 
                 } else { // wrong file type
-                $error .= "Por favor sube archivtos de tipo JPG, GIF, PNG o PDF <br />";
+                $error .= "Por favor sube archivtos de tipo JPG, GIF, PNG, PDF o Word <br />";
                      }
 
                 } else {
@@ -267,7 +292,7 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
 
             if($pid > 0)
             {
-                $success = "Su hoja de vida y sus datos han sido registrados con éxito, le mantendremos informado de todas las oportunidades de empleos a las que puede optar según su perfil profesional y sus aspiraciones salariales. Es importante recordarle que usted puede editar su hoja de vida e informaciones suministradas en cualquier momento que lo desee ingresando a Registra tu CV y pulsando el botón “Editar ”. Gracias por confiar en Hotel Solutions. Buna Suerte";
+                $success = "Su hoja de vida y sus datos han sido registrados con éxito, le mantendremos informado de todas las oportunidades de empleos a las que puede optar según su perfil profesional y sus aspiraciones salariales. Es importante recordarle que usted puede editar su hoja de vida e informaciones suministradas en cualquier momento que lo desee ingresando a Registra tu CV y pulsando el botón “Editar ”. Gracias por confiar en Hotel Solutions. Buena Suerte";
 
                 $first_name = "";
                 $last_name = "";
@@ -380,7 +405,14 @@ get_header(); ?>
                         </p>
                         <p>
                             <label for="country">País de residencia:</label>
-                            <input type="text" id="country" value="<?php echo isset($country) ? $country : '' ?>"  name="country" required />
+                           
+                            <select name="country" id="country" required>
+                                    <?php foreach ($array_paises as $pais) {
+                                        echo '<option value="'. $pais .'">'. $pais .'</option>';
+                                    }
+                                ?>
+                               
+                            </select>
                         </p>
                         <p>
                             <label for="city">Ciudad:</label>
@@ -388,8 +420,16 @@ get_header(); ?>
                         </p>
                           <p>
                             <label for="nationality">Nacionalidad:</label>
-                            <input type="text" id="nationality" value="<?php echo isset($nationality) ? $nationality : '' ?>"  name="nationality" required />
+                           
+                              <select name="nationality" id="nationality" required>
+                                    <?php foreach ($array_paises as $pais) {
+                                        echo '<option value="'. $pais .'">'. $pais .'</option>';
+                                    }
+                                ?>
+                               
+                            </select>
                         </p>
+
 
                 </div>
                 <div class="column">
@@ -432,12 +472,19 @@ get_header(); ?>
                         <label for="bottle_front">Archivo 2 (JPG, GIF, PNG o PDF)</label>
                         <input type="file" name="cv2" id="cv2"  />
                     </p>
+                    
 
            
                 </div>
             </div>
            
-            
+            <p>
+                <label for="terms">Aceptas términos y condiciones:</label>
+                <input type="checkbox" name="terms" required>
+               
+
+            </p>
+            <div class="g-recaptcha" data-sitekey="6LcuNSgUAAAAAFu3n1ZHTnogc4EVB_jk1w6IVo2r"></div>
              <p>
                 <input type="submit" value="Enviar"  id="submit" name="submit" class="btn btn-blue" />
                 <?php

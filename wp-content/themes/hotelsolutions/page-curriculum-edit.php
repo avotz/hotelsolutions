@@ -15,6 +15,7 @@ require_once ABSPATH.'wp-admin/includes/admin.php';
 require_once(ABSPATH . "wp-admin" . '/includes/image.php');
 require_once(ABSPATH . "wp-admin" . '/includes/file.php');
 require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+require(ABSPATH . "wp-content" . '/themes/hotelsolutions/recaptcha/src/autoload.php');
 
  $query = new WP_Query( array( 'post_type' => 'curriculum', 'posts_per_page' => '-1' ) ); 
  
@@ -133,6 +134,23 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
          $unemployed = $_POST['unemployed'];
          $job2 = $_POST['job2'];
          $job3 = $_POST['job3'];
+
+
+    //captcha
+    $secret = '6LcuNSgUAAAAAI1dYU0fwtd1bClTFcIbBPE4Og6z';
+    $gRecaptchaResponse = $_POST['g-recaptcha-response'];
+
+    $recaptcha = new \ReCaptcha\ReCaptcha($secret);
+
+    $resp = $recaptcha->verify($gRecaptchaResponse);
+    if ($resp->isSuccess()) {
+        // verified!
+        // if Domain Name Validation turned off don't forget to check hostname field
+        // if($resp->getHostName() === $_SERVER['SERVER_NAME']) {  }
+    } else {
+       $error .= 'Verifica que eres una persona resolviendo el Captcha'; //$resp->getErrorCodes();
+    }
+
         // IMAGE VALIDATION - CHECK IF THERE IS AN IMAGE AND THAT ITS THE RIGHT FILE TYPE AND RIGHT SIZE
         if ($_FILES) {
            // var_dump($_FILES);
@@ -156,13 +174,13 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
                 $uploaded_file_type = $arr_file_type['type'];
 
                  // Set an array containing a list of acceptable formats
-                $allowed_file_types = array('image/jpg','image/jpeg','image/gif','image/png','application/pdf');
+                $allowed_file_types = array('image/jpg','image/jpeg','image/gif','image/png','application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 
                  // If the uploaded file is the right format
                 if(in_array($uploaded_file_type, $allowed_file_types)) {
 
                 } else { // wrong file type
-                $error .= "Por favor sube archivtos de tipo JPG, GIF, PNG o PDF<br />";
+                $error .= "Por favor sube archivtos de tipo JPG, GIF, PNG, PDF o Word<br />";
                      }
 
                 } else {
@@ -442,7 +460,13 @@ get_header(); ?>
                 </div>
             </div>
            
-            
+            <p>
+                <label for="terms">Aceptas terminos y condiciones:</label>
+                <input type="checkbox" name="terms" required>
+               
+
+            </p>
+            <div class="g-recaptcha" data-sitekey="6LcuNSgUAAAAAFu3n1ZHTnogc4EVB_jk1w6IVo2r"></div>
              <p>
                 <input type="submit" value="Actualizar"  id="submit" name="submit" class="btn btn-blue" />
              </p>

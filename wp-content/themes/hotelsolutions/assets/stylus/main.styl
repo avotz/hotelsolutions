@@ -417,6 +417,7 @@ a {
 	background #00a8ff;
 	color:white;
 	border-radius 10px
+	margin-right 4rem
 }
 .navbar-toggle{
 	background-color: #00a8ff;
@@ -474,7 +475,7 @@ nav.navbar-fixed-top .navbar-nav > li > a:not(.btn):hover, nav.navbar-fixed-top 
 	}
 }
 .icon-bar {
-	background: #bbb;
+	background: #fff;
 }
 /* Buttons */
 
@@ -1568,7 +1569,18 @@ p.success
 		.current
 			background-color #c3c3c3
 
-.notranslate
+/*.notranslate
 	position: absolute;
 	left: 0;
-	top: 76px;
+	top: 76px;*/
+.language
+	position absolute
+	right: 4rem;
+	top: .5rem;
+	display flex 
+	flex-wrap wrap
+	justify-content space-between
+
+@media screen and (min-width: 768px)
+	.language
+		right: 2rem;

@@ -587,9 +587,25 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
 
     return $meta_boxes;
 }
+add_action( 'save_post', 'send_notification_cv', 100, 3 );
+function send_notification_cv( $post_id, $post, $update ) {
+    if ( $post->post_status == 'publish' && $post->post_type == 'curriculum' ) {
+        $subscribers = get_users( array ( 'role' => 'administrator' ) );
+        $emails      = array ();
+      
+        foreach ( $subscribers as $subscriber )
+            $emails[] = $subscriber->user_email;
+       
+       $body = sprintf( 'Un usuario subió un Curriculum, por favor revisar!');
+       $body .= sprintf( ' Usuario: <%s>', $post->post_title);
+      
 
-add_action( 'save_post', 'send_notification', 100, 3 );
-function send_notification( $post_id, $post, $update ) {
+        wp_mail( $emails, 'Un usuario subió un Curriculum!', $body );
+        }
+}
+
+add_action( 'save_post', 'send_notification_ca', 100, 3 );
+function send_notification_ca( $post_id, $post, $update ) {
     if ( $post->post_status == 'publish' && $post->post_type == 'candidato' ) {
         $subscribers = get_users( array ( 'role' => 'administrator' ) );
         $emails      = array ();

@@ -17,6 +17,7 @@
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri();  ?>/css/bootstrap.css">
 <?php wp_head(); ?>
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body <?php body_class(); ?>>
@@ -46,7 +47,10 @@
 	              ) 
 	          ); 
 	          ?>
-			<?php echo do_shortcode('[gtranslate]'); ?>
+	          <div class="language">
+	          	<?php echo do_shortcode('[gtranslate]'); ?>
+	          </div>
+			
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->
