@@ -2002,7 +2002,7 @@ body {
   font-family: 'Roboto', 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
   font-size: 14px;
   overflow-x: hidden;
-  color: #2a3237;
+  color: #000;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -2063,7 +2063,7 @@ body.page-template .navbar-fixed-top {
 p {
   font-size: 18px;
   line-height: 2;
-  color: #8a8e91;
+  color: #000;
 }
 h1,
 h2,

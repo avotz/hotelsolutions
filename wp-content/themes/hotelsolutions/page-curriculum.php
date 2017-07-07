@@ -465,11 +465,11 @@ get_header(); ?>
 
                     <!-- images -->
                     <p>
-                        <label for="bottle_front">Archivo 1 (JPG, GIF, PNG o PDF)</label>
+                        <label for="bottle_front">Archivo 1 (JPG, GIF, PNG, PDF o Word)</label>
                         <input type="file" name="cv1" id="cv1"  required />
                     </p>
                     <p>
-                        <label for="bottle_front">Archivo 2 (JPG, GIF, PNG o PDF)</label>
+                        <label for="bottle_front">Archivo 2 (JPG, GIF, PNG, PDF o Word)</label>
                         <input type="file" name="cv2" id="cv2"  />
                     </p>
                     
