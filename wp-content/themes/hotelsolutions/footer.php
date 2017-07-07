@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<div class="row bottom-footer text-center-mobile">
-				<div class="col-sm-8">
+				<div class="col-sm-8 copy">
 					<p>&copy; 2017 All Rights Reserved. <a href="http://www.avotz.com/">Avotz</a></p>
 				</div>
 				<div class="col-sm-4 text-right text-center-mobile">
