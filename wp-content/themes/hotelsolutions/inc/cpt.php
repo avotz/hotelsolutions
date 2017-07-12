@@ -587,6 +587,139 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
 
     return $meta_boxes;
 }
+
+/* Add fields to account page */
+add_action('um_after_account_general', 'showExtraFields', 100);
+function showExtraFields()
+{
+    $custom_fields = [
+        "last_name_2" => "Segundo Apellido",
+        
+    ];
+
+    foreach ($custom_fields as $key => $value) {
+
+        $fields[ $key ] = array(
+                'title' => $value,
+                'metakey' => $key,
+                'type' => 'text',
+                'label' => $value,
+        );
+
+        apply_filters('um_account_secure_fields', $fields, 'general' );
+
+        $field_value = get_user_meta(um_user('ID'), $key, true) ? : '';
+
+        $html = '<div class="um-field um-field-'.$key.'" data-key="'.$key.'">
+        <div class="um-field-label">
+        <label for="'.$key.'">'.$value.'</label>
+        <div class="um-clear"></div>
+        </div>
+        <div class="um-field-area">
+        <input class="um-form-field valid "
+        type="text" name="'.$key.'"
+        id="'.$key.'" value="'.$field_value.'"
+        placeholder=""
+        data-validate="" data-key="'.$key.'">
+        </div>
+        </div>';
+
+        echo $html;
+
+    }
+}
+
+
+/* add a custom tab to show user pages */
+add_filter('um_profile_tabs', 'pages_tab', 1000 );
+function pages_tab( $tabs ) {
+    $tabs['pages'] = array(
+        'name' => 'Pagesss',
+        'icon' => 'um-faicon-pencil',
+        'custom' => true
+    );  
+    return $tabs;
+}
+
+/* Tell the tab what to display */
+add_action('um_profile_content_pages_default', 'um_profile_content_pages_default');
+function um_profile_content_pages_default( $args ) {
+    global $ultimatemember;
+    $loop = $ultimatemember->query->make('post_type=page&posts_per_page=10&offset=0&author=' . um_profile_id() );
+    while ($loop->have_posts()) { $loop->the_post(); $post_id = get_the_ID();
+    ?>
+    
+        <div class="um-item">
+            <div class="um-item-link"><i class="um-icon-ios-paper"></i><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></div>
+        </div>
+        
+    <?php
+    }
+}
+
+/* add new tab called "curriculum" */
+
+add_filter('um_account_page_default_tabs_hook', 'my_custom_tab_in_um', 100 );
+function my_custom_tab_in_um( $tabs ) {
+    $tabs[800]['curriculum']['icon'] = 'um-faicon-pencil';
+    $tabs[800]['curriculum']['title'] = 'Editar Curriculum';
+    $tabs[800]['curriculum']['custom'] = true;
+    return $tabs;
+}
+    
+/* make our new tab hookable */
+
+add_action('um_account_tab__curriculum', 'um_account_tab__curriculum');
+function um_account_tab__curriculum( $info ) {
+    global $ultimatemember;
+    extract( $info );
+
+    $output = $ultimatemember->account->get_tab_output('curriculum');
+    if ( $output ) { echo $output; }
+}
+
+/* Finally we add some content in the tab */
+
+add_filter('um_account_content_hook_curriculum', 'um_account_content_hook_curriculum');
+function um_account_content_hook_curriculum( $output ){
+    ob_start();
+    ?>
+    
+    <?php
+                $user_id = get_current_user_id();
+              
+                $query_cv_arg = array(
+                    'post_type' => 'curriculum',
+                    'post_author' => $user_id,
+                    'posts_per_page' => 1,
+                   
+                );
+                $curriculum = get_posts( $query_cv_arg );
+               
+                // $edit_post = add_query_arg( 'curriculum', $curriculum[0]->ID, get_permalink( 61 + $_POST['_wp_http_referer'] ) );
+                if($curriculum){
+                ?>
+                 <h4>Para editar tu curriculum dale click en el siguiente link:</h4>
+                 <div class="account-curriculum-edit">
+       
+                   <a href="/actualizar-curriculum?cv=<?php echo $curriculum[0]->ID; ?>" class="btn btn-blue">Editar Curriculum</a>
+                  
+
+                </div>  
+               
+                 <?php } else {?>
+                    
+                    <h2>No tienes curriculum registrado todavia!!</h2>
+
+                 <?php }?>
+        
+    <?php
+        
+    $output .= ob_get_contents();
+    ob_end_clean();
+    return $output;
+}
+
 add_action( 'save_post', 'send_notification_cv', 100, 3 );
 function send_notification_cv( $post_id, $post, $update ) {
     if ( $post->post_status == 'publish' && $post->post_type == 'curriculum' ) {
