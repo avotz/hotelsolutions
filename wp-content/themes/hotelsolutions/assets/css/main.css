@@ -3689,7 +3689,7 @@ p.success {
   justify-content: space-between;
 }
 .language a {
-  padding0: 0.5rem;
+  padding: 0 0.5rem;
 }
 @media screen and (min-width: 768px) {
   .language {
