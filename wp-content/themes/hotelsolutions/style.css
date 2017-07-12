@@ -2120,7 +2120,7 @@ header {
 ul li {
   font-size: 18px;
   line-height: 2;
-  color: #8a8e91;
+  color: #000;
 }
 input[type="email"],
 input[type="text"],
@@ -3687,6 +3687,9 @@ p.success {
   -ms-flex-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
+}
+.language a {
+  padding0: 0.5rem;
 }
 @media screen and (min-width: 768px) {
   .language {
