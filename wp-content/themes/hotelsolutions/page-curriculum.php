@@ -497,7 +497,7 @@ get_header(); ?>
                    
                 );
                 $curriculum = get_posts( $query_cv_arg );
-               
+               var_dump($curriculum);
                 // $edit_post = add_query_arg( 'curriculum', $curriculum[0]->ID, get_permalink( 61 + $_POST['_wp_http_referer'] ) );
                 if($curriculum){
                 ?>
