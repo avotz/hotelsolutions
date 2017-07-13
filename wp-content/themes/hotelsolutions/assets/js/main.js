@@ -208,4 +208,31 @@ jQuery(function($) {
 	$(window).on("resize", function() {
 		$('.modal:visible').each(centerModal);
 	});
+
+	$('.remove-file').click(function(event){
+		event.preventDefault();
+		  
+		  var cv = $(this).data('cv');
+		  var id = $(this).data('id');
+		  var nonce = $(this).data('nonce');
+		  var button =  $(this);
+		  $.ajax({
+            type: 'POST',
+            url: '/wp-admin/admin-ajax.php?action=delete_file&post_id=' + cv + '&id=' + id + '&nonce=' + nonce,
+            //data: { file : $(this).data('id')},
+            success: function (resp) {
+            	
+                 console.log(resp)
+                 if(resp == 'success')
+                 	button.parent('li').remove();
+                 //	 $('.files-list').find('li[data-id="'+ cv +'"]').remove();
+              
+                
+            },
+            error: function () {
+              console.log('error eliminado archivo');
+
+            }
+        });
+	});
 });

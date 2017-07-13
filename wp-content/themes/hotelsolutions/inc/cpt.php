@@ -628,7 +628,23 @@ function showExtraFields()
 
     }
 }
-
+add_action( 'wp_ajax_delete_file', 'delete_file' );
+function delete_file(){
+ 
+    $permission = check_ajax_referer( 'delete_file_nonce', 'nonce', false );
+    if( $permission == false ) {
+        echo 'error';
+    }
+    else {
+        //wp_delete_post( $_REQUEST['id'] );
+         delete_post_meta($_REQUEST['post_id'], 'rw_cv_files', $_REQUEST['id']); 
+         
+        echo 'success';
+    }
+ 
+    die();
+ 
+}
 
 /* add a custom tab to show user pages */
 add_filter('um_profile_tabs', 'pages_tab', 1000 );

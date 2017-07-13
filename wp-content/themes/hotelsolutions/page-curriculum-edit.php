@@ -301,12 +301,23 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
 
              //REDIRECT TO THE NEW POST ON SAVE
             $link = get_permalink( $pid );
-            wp_redirect( '/registra-tu-cv' );
+            $success = "";
+            
+            if($pid > 0)
+            {
+                $success = "Su hoja de vida y sus datos han sido actualizados con éxito";
+            }
+
+            wp_redirect( '/actualizar-curriculum/?cv='.$pid.'&msg=1' );
 
         } // END SAVING POST
     } // END VALIDATION
 } // END THE IF STATEMENT THAT STARTED THE WHOLE FORM
 
+if($_GET['msg'] == 1)
+{
+    $success = "Su hoja de vida y sus datos han sido actualizados con éxito";
+}
 //POST THE POST YO
 //do_action('wp_insert_post', 'wp_insert_post');
 
@@ -439,11 +450,13 @@ get_header(); ?>
                       </p>
 
                      <h4> Tus archivos </h4>
-                     <ul>
+                     <ul class="files-list">
                          
                     
                     <?php foreach ($rw_files as $rw_file)  : ?>
-                      <li> <a href="/<?php echo $rw_file['url'] ?>" target="_blank"><?php echo $rw_file['name'] ?></a></li>
+                      <li data-id="<?php echo $rw_file['ID'] ?>">
+                        
+                      <a href="/<?php echo $rw_file['url'] ?>" target="_blank"><?php echo $rw_file['name'] ?></a> <span data-id="<?php echo $rw_file['ID'] ?>" data-cv="<?php echo $current_post ?>" data-nonce="<?php echo wp_create_nonce('delete_file_nonce') ?>" class="remove-file" title="Eliminar"><i class="fa fa-remove"></i></span></li>
                    <?php endforeach; ?>
                         </ul>
                     <!-- images -->

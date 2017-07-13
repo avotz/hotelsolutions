@@ -3716,6 +3716,10 @@ p.success {
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
+.remove-file {
+  color: #f00;
+  cursor: pointer;
+}
 @-moz-keyframes ripple-animation {
   from {
     opacity: 0.2;
