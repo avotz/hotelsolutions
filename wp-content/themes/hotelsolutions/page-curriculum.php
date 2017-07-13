@@ -492,7 +492,8 @@ get_header(); ?>
                 var_dump($user_id);
                 $query_cv_arg = array(
                     'post_type' => 'curriculum',
-                    'post_author' => $user_id,
+                    //'post_author' => $user_id,
+                    'author'       =>  $user_id, 
                     'posts_per_page' => 1,
                    
                 );
