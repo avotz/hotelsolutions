@@ -235,4 +235,32 @@ jQuery(function($) {
             }
         });
 	});
+
+	$('.remove-cv').click(function(event){
+		event.preventDefault();
+		  
+		 
+		  var id = $(this).data('id');
+		  var nonce = $(this).data('nonce');
+		  var button =  $(this);
+		  $.ajax({
+            type: 'POST',
+            url: '/wp-admin/admin-ajax.php?action=delete_cv&id=' + id + '&nonce=' + nonce,
+            //data: { file : $(this).data('id')},
+            success: function (resp) {
+            	
+                 console.log(resp)
+                 if(resp == 'success'){
+
+                 	$('.account-curriculum-edit').html('<p>Curriculum eliminado correctamente!</p>')
+                 }
+                 
+                
+            },
+            error: function () {
+              console.log('error eliminado archivo');
+
+            }
+        });
+	});
 });

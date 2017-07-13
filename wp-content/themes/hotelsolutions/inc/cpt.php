@@ -646,6 +646,24 @@ function delete_file(){
  
 }
 
+add_action( 'wp_ajax_delete_cv', 'delete_cv' );
+function delete_cv(){
+ 
+    $permission = check_ajax_referer( 'delete_cv_nonce', 'nonce', false );
+    if( $permission == false ) {
+        echo 'error';
+    }
+    else {
+         wp_delete_post( $_REQUEST['id'] );
+          
+         
+        echo 'success';
+    }
+ 
+    die();
+ 
+}
+
 /* add a custom tab to show user pages */
 add_filter('um_profile_tabs', 'pages_tab', 1000 );
 function pages_tab( $tabs ) {
@@ -658,7 +676,7 @@ function pages_tab( $tabs ) {
 }
 
 /* Tell the tab what to display */
-add_action('um_profile_content_pages_default', 'um_profile_content_pages_default');
+/*add_action('um_profile_content_pages_default', 'um_profile_content_pages_default');
 function um_profile_content_pages_default( $args ) {
     global $ultimatemember;
     $loop = $ultimatemember->query->make('post_type=page&posts_per_page=10&offset=0&author=' . um_profile_id() );
@@ -671,7 +689,7 @@ function um_profile_content_pages_default( $args ) {
         
     <?php
     }
-}
+}*/
 
 /* add new tab called "curriculum" */
 
@@ -706,7 +724,7 @@ function um_account_content_hook_curriculum( $output ){
               
                 $query_cv_arg = array(
                     'post_type' => 'curriculum',
-                    'post_author' => $user_id,
+                    'author' => $user_id,
                     'posts_per_page' => 1,
                    
                 );
@@ -719,7 +737,7 @@ function um_account_content_hook_curriculum( $output ){
                  <div class="account-curriculum-edit">
        
                    <a href="/actualizar-curriculum?cv=<?php echo $curriculum[0]->ID; ?>" class="btn btn-blue">Editar Curriculum</a>
-                  
+                   <a href="#" data-id="<?php echo $curriculum[0]->ID; ?>" data-nonce="<?php echo wp_create_nonce('delete_cv_nonce') ?>" class="remove-cv btn btn-oscuro" title="Eliminar">Eliminar curriculum y archivos</a>
 
                 </div>  
                
