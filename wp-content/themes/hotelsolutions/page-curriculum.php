@@ -489,7 +489,7 @@ get_header(); ?>
                 <input type="submit" value="Enviar"  id="submit" name="submit" class="btn btn-blue" />
                 <?php
                 $user_id = get_current_user_id();
-              
+                var_dump($user_id);
                 $query_cv_arg = array(
                     'post_type' => 'curriculum',
                     'post_author' => $user_id,
