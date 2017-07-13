@@ -489,7 +489,7 @@ get_header(); ?>
                 <input type="submit" value="Enviar"  id="submit" name="submit" class="btn btn-blue" />
                 <?php
                 $user_id = get_current_user_id();
-                var_dump($user_id);
+               
                 $query_cv_arg = array(
                     'post_type' => 'curriculum',
                     //'post_author' => $user_id,
@@ -498,7 +498,7 @@ get_header(); ?>
                    
                 );
                 $curriculum = get_posts( $query_cv_arg );
-               var_dump($curriculum);
+              
                 // $edit_post = add_query_arg( 'curriculum', $curriculum[0]->ID, get_permalink( 61 + $_POST['_wp_http_referer'] ) );
                 if($curriculum){
                 ?>
