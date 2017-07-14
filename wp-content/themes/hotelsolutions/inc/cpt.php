@@ -653,8 +653,48 @@ function wp_hs_exp_oferta_func() {
    }
 }
 
+
 /* Add fields to account page */
 add_action('um_after_account_general', 'showExtraFields', 100);
+function showExtraFields() {
+  global $ultimatemember;
+
+ if(um_user('role') == 'member')
+    $names = array('last_name_2');
+  else
+    $names = array('cp_last_name_2');
+
+  $disabled = [];
+
+  $fields = get_custom_fields( $names );
+  $fields = apply_filters('um_account_secure_fields', $fields, $id );
+
+  foreach( $fields as $key => $data ){
+    if (in_array($key,$disabled)) {
+      $fieldOutput = $ultimatemember->fields->edit_field( $key, $data );
+      $output .= str_replace('id="' . $key . '"', 'id="' . $key . '"' . 'disabled="disabled"', $fieldOutput);
+    } else {
+      $output .= $ultimatemember->fields->edit_field( $key, $data );
+    }
+  }
+
+ 
+  echo $output;
+}
+
+function get_custom_fields( $fields ) {
+  global $ultimatemember;
+  $array=array();
+  foreach ($fields as $field ) {
+    if ( isset( $ultimatemember->builtin->saved_fields[$field] ) ) {
+      $array[$field] = $ultimatemember->builtin->saved_fields[$field];
+    } else if ( isset( $ultimatemember->builtin->predefined_fields[$field] ) ) {
+      $array[$field] = $ultimatemember->builtin->predefined_fields[$field];
+    }
+  }
+  return $array;
+}
+/*add_action('um_after_account_general', 'showExtraFields', 100);
 function showExtraFields()
 {
     $custom_fields = [
@@ -692,7 +732,7 @@ function showExtraFields()
         echo $html;
 
     }
-}
+}*/
 add_action( 'wp_ajax_delete_file', 'delete_file' );
 function delete_file(){
  
@@ -730,15 +770,15 @@ function delete_cv(){
 }
 
 /* add a custom tab to show user pages */
-add_filter('um_profile_tabs', 'pages_tab', 1000 );
+/*add_filter('um_profile_tabs', 'pages_tab', 1000 );
 function pages_tab( $tabs ) {
     $tabs['pages'] = array(
-        'name' => 'Pagesss',
+        'name' => 'Pages',
         'icon' => 'um-faicon-pencil',
         'custom' => true
     );  
     return $tabs;
-}
+}*/
 
 /* Tell the tab what to display */
 /*add_action('um_profile_content_pages_default', 'um_profile_content_pages_default');
@@ -757,11 +797,18 @@ function um_profile_content_pages_default( $args ) {
 }*/
 
 /* add new tab called "curriculum" */
-
+/*add_filter('um_account_page_default_tabs_hook', 'rename_tab_in_um', 100 );
+function rename_tab_in_um( $tabs ) {
+    //$tabs[700]['mytab']['icon'] = 'um-faicon-pencil';
+    $tabs[100]['general']['title'] = 'Cuenta';
+    //$tabs[800]['mytab']['custom'] = true;
+    var_dump($tabs);
+    return $tabs;
+}*/
 add_filter('um_account_page_default_tabs_hook', 'my_custom_tab_in_um', 100 );
 function my_custom_tab_in_um( $tabs ) {
     $tabs[800]['curriculum']['icon'] = 'um-faicon-pencil';
-    $tabs[800]['curriculum']['title'] = 'Editar Curriculum';
+    $tabs[800]['curriculum']['title'] = 'Edit Curriculum';
     $tabs[800]['curriculum']['custom'] = true;
     return $tabs;
 }
