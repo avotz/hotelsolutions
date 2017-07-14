@@ -136,7 +136,7 @@ function hotelsolutions_contact_menu_atts( $atts, $item, $args )
   return $atts;
 }
 
-function mailtrap($phpmailer) {
+/*function mailtrap($phpmailer) {
   $phpmailer->isSMTP();
   $phpmailer->Host = 'smtp.mailtrap.io';
   $phpmailer->SMTPAuth = true;
@@ -145,7 +145,7 @@ function mailtrap($phpmailer) {
   $phpmailer->Password = '95bc1229416301';
 }
 
-add_action('phpmailer_init', 'mailtrap');
+add_action('phpmailer_init', 'mailtrap');*/
 /**
  * Implement the Custom Header feature.
  */
