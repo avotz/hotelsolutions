@@ -613,7 +613,7 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
     return $meta_boxes;
 }
 //cron job
-/*if ( ! wp_next_scheduled( 'wp_hs_exp_oferta' ) ) {
+if ( ! wp_next_scheduled( 'wp_hs_exp_oferta' ) ) {
   wp_schedule_event( time(), 'daily', 'delete_oferta' );
 }
 
@@ -651,7 +651,7 @@ function wp_hs_exp_oferta_func() {
 
         wp_mail( $emails, 'Ofertas que expiraron', 'se elimininaron '. $count.' ofertas que expiraron');
    }
-}*/
+}
 
 /* Add fields to account page */
 add_action('um_after_account_general', 'showExtraFields', 100);
