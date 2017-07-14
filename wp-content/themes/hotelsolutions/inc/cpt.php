@@ -100,7 +100,12 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
                 'type'  => 'select',
                  'options' => array(
                     '₡' => 'Colones',
+                    'Q' => 'Quetzal',
+                    'C$' => 'Córdoba',
+                    'L' => 'Lempira',
+                    '฿' => 'Balboa',
                     '$' => 'Dolares',  
+                   
                 ),
                 'std'   => '',
                 'class' => 'custom-class',
