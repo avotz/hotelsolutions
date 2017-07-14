@@ -372,14 +372,19 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
                 'type'  => 'select',
                  'options' => array(
                     '₡' => 'Colones',
+                    'Q' => 'Quetzal',
+                    'C$' => 'Córdoba',
+                    'L' => 'Lempira',
+                    '฿' => 'Balboa',
                     '$' => 'Dolares',  
+                   
                 ),
                 'std'   => '',
                 'class' => 'custom-class',
                 'clone' => false,
             ),
                 array(
-                'name'  => __( 'Incorporación', 'textdomain' ),
+                'name'  => __( 'Tiempo de incorporación', 'textdomain' ),
                 'desc'  => '',
                 'id'    => $prefix . 'of_incorporation',
                 'type'  => 'text',
@@ -398,16 +403,26 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
                 'class' => 'custom-class',
                 'clone' => false,
             ),
-
-              array(
-                'name'  => __( 'Archivos', 'textdomain' ),
+               array(
+                'name'  => 'Fecha Expiración',
                 'desc'  => '',
-                'id'    => $prefix . 'of_files',
-                'type'  => 'file_advanced',
+                'id'    => $prefix . 'of_exp_date',
+                'type'  => 'date',
+                'timestamp' =>false,
                 'std'   => '',
-                'class' => 'custom-class',
-                'clone' => false,
+                'class' => 'custom-class'
+                
             ),
+
+            //   array(
+            //     'name'  => __( 'Archivos', 'textdomain' ),
+            //     'desc'  => '',
+            //     'id'    => $prefix . 'of_files',
+            //     'type'  => 'file_advanced',
+            //     'std'   => '',
+            //     'class' => 'custom-class',
+            //     'clone' => false,
+            // ),
 
                 array(
                 'name'  => __( 'Numero de referencia', 'textdomain' ),
@@ -519,7 +534,12 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
                 'type'  => 'select',
                  'options' => array(
                     '₡' => 'Colones',
+                    'Q' => 'Quetzal',
+                    'C$' => 'Córdoba',
+                    'L' => 'Lempira',
+                    '฿' => 'Balboa',
                     '$' => 'Dolares',  
+                   
                 ),
                 'std'   => '',
                 'class' => 'custom-class',
@@ -586,6 +606,46 @@ function hotelsolutions_register_meta_boxes( $meta_boxes ) {
     );
 
     return $meta_boxes;
+}
+//cron job
+if ( ! wp_next_scheduled( 'wp_hs_exp_oferta' ) ) {
+  wp_schedule_event( time(), 'daily', 'delete_oferta' );
+}
+
+add_action( 'wp_hs_exp_oferta', 'wp_hs_exp_oferta_func' );
+
+function wp_hs_exp_oferta_func() {
+    $args = array(
+        'post_type' => 'oferta',
+        'posts_per_page' => -1
+    );
+    $count = 0;
+    $ofertas = new WP_Query($args);
+    if ($ofertas->have_posts()):
+        while($ofertas->have_posts()): $ofertas->the_post();    
+
+            $exp_date = get_post_meta( get_the_ID(), 'rw_of_exp_date', true );
+            $expiration_date_time = strtotime($exp_date);
+
+            if ($expiration_date_time < time()) {
+                wp_delete_post(get_the_ID());
+                $count++;
+                //Use wp_delete_post(get_the_ID(),true) to delete the post from the trash too.                  
+            }
+
+        endwhile;
+    endif;
+   
+   if($count > 0)
+   {
+        $subscribers = get_users( array ( 'role' => 'administrator' ) );
+        $emails      = array ();
+      
+        foreach ( $subscribers as $subscriber )
+            $emails[] = $subscriber->user_email;
+        
+        wp_mail( $emails, 'Ofertas que expiraron', 'se elimininaron '. $count.' ofertas que expiraron');
+   }
 }
 
 /* Add fields to account page */

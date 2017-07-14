@@ -49,8 +49,47 @@ $offer_found = 0;
     <?php endwhile; endif; 
      wp_reset_query(); 
 
+
      if(!$offer_found)
         wp_redirect( '/ofertas' );
+
+
+    $user_id = get_current_user_id();
+   
+    $query_cv_arg = array(
+        'post_type' => 'curriculum',
+        //'post_author' => $user_id,
+        'author'       =>  $user_id, 
+        'posts_per_page' => 1,
+       
+    );
+    $curriculum = get_posts( $query_cv_arg );
+
+    if($curriculum)
+    {
+
+        $query = new WP_Query( array( 'post_type' => 'curriculum', 'posts_per_page' => '1' ) ); 
+ 
+         if ( $query->have_posts() ) : while ( $query->have_posts() ) : $query->the_post(); ?>
+         
+        <?php
+         
+         
+             
+            if ( $curriculum[0]->ID == $post->ID)
+            {
+                
+                $rw_files = (rwmb_meta( 'rw_cv_files')) ? rwmb_meta( 'rw_cv_files') : [];
+                
+            }
+        
+         
+        ?>
+         
+        <?php endwhile; endif; 
+         wp_reset_query(); 
+
+    }
 
 if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POST['action'] == "new_post") {
     $error = "";
@@ -246,7 +285,11 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
         update_post_meta($pid, 'rw_ca_work_experience', $work_experience); 
         update_post_meta($pid, 'rw_ca_reference', $reference); 
        
-        //add_post_meta($pid, 'rating', $winerating, true); 
+        foreach ($rw_files as $rw_file) {
+            
+              add_post_meta($pid, 'rw_ca_files', $rw_file['ID']);
+                     
+            }  
 
             //INSERT OUR MEDIA ATTACHMENTS
       
@@ -454,6 +497,10 @@ get_header(); ?>
                         <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>" name="salary" required />
                         <select name="salary_currency" id="salary_currency">
                             <option value="₡">Colones</option>
+                            <option value="Q">Quetzal</option>
+                            <option value="C$">Córdoba</option>
+                            <option value="L">Lempira</option>
+                            <option value="฿">Balboa</option>
                             <option value="$">Dolares</option>
                         </select>
                         
@@ -478,14 +525,24 @@ get_header(); ?>
                       </p>
 
                     <!-- images -->
-                    <p>
+                     <h4> Archivos a Subir </h4>
+                     <ul class="files-list">
+                         
+                    
+                    <?php foreach ($rw_files as $rw_file)  : ?>
+                      <li data-id="<?php echo $rw_file['ID'] ?>">
+                        
+                      <a href="/<?php echo $rw_file['url'] ?>" target="_blank"><?php echo $rw_file['name'] ?></a> <span data-id="<?php echo $rw_file['ID'] ?>" data-cv="<?php echo $current_post ?>" data-nonce="<?php echo wp_create_nonce('delete_file_nonce') ?>" class="remove-file" title="Eliminar"><i class="fa fa-remove"></i></span></li>
+                   <?php endforeach; ?>
+                        </ul>
+                    <!-- <p>
                         <label for="bottle_front">Archivo 1 (JPG, GIF, PNG, PDF o Word)</label>
                         <input type="file" name="cv1" id="cv1"  required />
                     </p>
                     <p>
                         <label for="bottle_front">Archivo 2 (JPG, GIF, PNG, PDF o Word)</label>
                         <input type="file" name="cv2" id="cv2"  />
-                    </p>
+                    </p> -->
 
            
                 </div>

@@ -40,6 +40,7 @@ gulp.task('js', function () {
       /*'./assets/js/vendor/chosen.jquery.min.js',
       './assets/js/vendor/wow.min.js',*/
       /*'./assets/js/vendor/jquery.uniform.js',*/
+      './assets/js/vendor/flatpickr.js',
       './assets/js/vendor/jquery.onepagenav.js',
      /*'./assets/js/vendor/grid.js',*/
 
@@ -63,7 +64,7 @@ gulp.task('stylus', function () {
 });
 
 gulp.task('css', function () {
-  gulp.src(['./assets/css/main.css','./assets/css/owl.carousel.css','./assets/css/animate.css','./fonts/font-awesome-4.1.0/css/font-awesome.min.css'/*,'./fonts/eleganticons/et-icons.css'*/])
+  gulp.src(['./assets/css/main.css','./assets/css/owl.carousel.css','./assets/css/animate.css','./fonts/font-awesome-4.1.0/css/font-awesome.min.css','./assets/css/flatpickr.min.css'/*,'./fonts/eleganticons/et-icons.css'*/])
     /*.pipe(minifyCSS({ keepSpecialComments: '*', keepBreaks: '*'}))*/
     .pipe(concat('style.css'))
     .pipe(gulp.dest('./'))

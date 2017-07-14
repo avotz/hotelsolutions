@@ -131,6 +131,12 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
      } else {
         $error .= "Por favor acepta los términos y condiciones <br />";
     }
+     if (!empty($_POST['exp_date'])) {
+            $exp_date = $_POST['exp_date'];
+     } else {
+        $error .= "Por favor ingresa la fecha de expiración de la oferta <br />";
+    }
+
 
          $salary_currency = $_POST['salary_currency'];
          $hotel_type = $_POST['hotel_type'];
@@ -236,6 +242,7 @@ if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POS
         update_post_meta($pid, 'rw_of_salary_currency', $salary_currency);
         update_post_meta($pid, 'rw_of_hotel_type', $hotel_type); 
         update_post_meta($pid, 'rw_of_other_requirements', $other_requirements); 
+        update_post_meta($pid, 'rw_of_exp_date', $exp_date); 
         //add_post_meta($pid, 'rating', $winerating, true); 
 
             //INSERT OUR MEDIA ATTACHMENTS
@@ -475,6 +482,10 @@ get_header(); ?>
                         <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>"  name="salary" required />
                         <select name="salary_currency" id="salary_currency">
                             <option value="₡">Colones</option>
+                            <option value="Q">Quetzal</option>
+                            <option value="C$">Córdoba</option>
+                            <option value="L">Lempira</option>
+                            <option value="฿">Balboa</option>
                             <option value="$">Dolares</option>
                         </select>
                         
@@ -482,7 +493,7 @@ get_header(); ?>
                      
                     
                      <p>
-                        <label for="incorporation">Incorporación:</label>
+                        <label for="incorporation">Tiempo de incorporación:</label>
                         <input type="text" id="incorporation" value="<?php echo isset($incorporation) ? $incorporation : '' ?>"  name="incorporation" required />
                         
                     </p>
@@ -491,16 +502,20 @@ get_header(); ?>
                         <label for="other_requirements">Otros Requisitos:</label>
                         <textarea id="other_requirements"  name="other_requirements" cols="80" rows="10" required><?php echo isset($other_requirements) ? $other_requirements : '' ?></textarea>
                       </p>
-
+                      <p>
+                        <label for="incorporation">Fecha Expiración:</label>
+                        <input type="text" id="exp_date"  class="date" value="<?php echo isset($exp_date) ? $exp_date : '' ?>"  name="exp_date" required />
+                        
+                       </p>
                     <!-- images -->
-                    <p>
+                    <!-- <p>
                         <label for="bottle_front">Archivo 1 (JPG, GIF, PNG, PDF o Word)</label>
                         <input type="file" name="of1" id="of1"  required />
                     </p>
                     <p>
                         <label for="bottle_front">Archivo 2 (JPG, GIF, PNG, PDF o Word)</label>
                         <input type="file" name="of2" id="of2"  />
-                    </p>
+                    </p> -->
 
            
                 </div>

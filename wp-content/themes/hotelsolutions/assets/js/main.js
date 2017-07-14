@@ -94,6 +94,13 @@ jQuery(function($) {
 			$(this).parent().parent().prev('button').html($(this).html());
 		});
 
+		$(".date").flatpickr({
+		      minDate: "today",
+		      onChange: function(selectedDates, dateStr, instance) {
+		           //$('.filters').find('form').submit();
+		        },
+		    });
+
 		// Onepage Nav
 		/*$('.navbar.navbar-fixed-top .navbar-nav').onePageNav({
 			currentClass: 'active',

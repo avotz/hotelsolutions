@@ -440,6 +440,10 @@ get_header(); ?>
                         <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>" name="salary" required />
                         <select name="salary_currency" id="salary_currency">
                             <option value="₡">Colones</option>
+                            <option value="Q">Quetzal</option>
+                            <option value="C$">Córdoba</option>
+                            <option value="L">Lempira</option>
+                            <option value="฿">Balboa</option>
                             <option value="$">Dolares</option>
                         </select>
                         

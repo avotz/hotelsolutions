@@ -424,9 +424,14 @@ get_header(); ?>
                     <p>
                         <label for="salary">Aspiraciones Salariales:</label>
                         <input type="text" id="salary" value="<?php echo isset($salary) ? $salary : '' ?>"  name="salary" required />
+                       
                         <select name="salary_currency" id="salary_currency">
                             <option value="₡" <?php if(isset($salary_currency) && $salary_currency == '₡') echo 'selected'; ?> >Colones</option>
-                            <option value="$" <?php if(isset($salary_currency) && $salary_currency == '$') echo 'selected'; ?>>Dolares</option>
+                            <option value="Q" <?php if(isset($salary_currency) && $salary_currency == 'Q') echo 'selected'; ?> >Quetzal</option>
+                            <option value="C$" <?php if(isset($salary_currency) && $salary_currency == 'C$') echo 'selected'; ?> >Córdoba</option>
+                            <option value="L" <?php if(isset($salary_currency) && $salary_currency == 'L') echo 'selected'; ?> >Lempira</option>
+                            <option value="฿" <?php if(isset($salary_currency) && $salary_currency == '฿') echo 'selected'; ?> >Balboa</option>
+                            <option value="$" <?php if(isset($salary_currency) && $salary_currency == '$') echo 'selected'; ?> >Dolares</option>
                         </select>
                         
                     </p>
