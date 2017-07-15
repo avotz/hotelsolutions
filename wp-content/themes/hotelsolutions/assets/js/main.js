@@ -5,6 +5,85 @@ jQuery(function($) {
 	var owlPricing;
 	var ratio = 2;
 
+	translateAccountProfile();
+
+	function translateAccountProfile() {
+		if($('html').attr('lang') == 'es-ES')
+		{
+			$('.um-page-account').find('.entry-title').text('Cuenta');
+			$('.um-page-login').find('.entry-title').text('Iniciar Sesión');
+			$('.um-page-password-reset').find('.entry-title').text('Cambio de Contraseña');
+			
+			var accountSection = $('.um-account');
+			var profileSection = $('.um-profile');
+			var loginSection = $('.um-login');
+			var passwordSection = $('.um-password');
+			//tabs
+			accountSection.find('a[data-tab="general"] .um-account-title').text('Cuenta');
+			accountSection.find('a[data-tab="password"] .um-account-title').text('Cambiar Contraseña');
+			accountSection.find('a[data-tab="privacy"] .um-account-title').text('Privacidad');
+			accountSection.find('a[data-tab="curriculum"] .um-account-title').text('Editar Curriculum');
+			accountSection.find('a[data-tab="delete"] .um-account-title').text('Eliminar Cuenta');
+			//content tabs
+			accountSection.find('.um-account-profile-link a').text('Ver Perfil');
+			accountSection.find('.um-account-heading').html('<i class="um-faicon-user"></i>Cuenta');
+			accountSection.find('label[for="user_login"]').text('Usuario');
+			accountSection.find('label[for="first_name"]').text('Nombre');
+			accountSection.find('label[for="last_name"]').text('Primer Apellido');
+			accountSection.find('label[for="last_name_2"]').text('Segundo Apellido');
+			accountSection.find(".um-field-last_name_2").insertAfter(accountSection.find(".um-field-last_name"));
+			accountSection.find('label[for="user_email"]').text('Correo');
+			accountSection.find('#um_account_submit').val('Actualizar');
+
+			accountSection.find('label[for="current_user_password"]').text('Contraseña Actual');
+			accountSection.find('label[for="user_password"]').text('Nueva Contraseña');
+			accountSection.find('label[for="confirm_user_password"]').text('Confirmar Contraseña');
+			accountSection.find('input[value="Update Password"]').val('Actualizar');
+
+			accountSection.find('label[for="single_user_password"]').text('Contraseña');
+			accountSection.find('input[value="Delete Account"]').val('Eliminar');
+			accountSection.find('.um-account-tab-delete p').text('¿Seguro que quieres eliminar tu cuenta? Esto borrará todos los datos de su cuenta del sitio. Para eliminar su cuenta, introduzca su contraseña a continuación'); 
+
+			profileSection.find('a:contains("Edit Profile")').text('Editar Perfil');
+			profileSection.find('a:contains("My Account")').text('Mi Cuenta');
+			profileSection.find('a:contains("Logout")').text('Cerrar Sesión');
+			profileSection.find('a:contains("Cancel")').text('Cancelar');
+			profileSection.find('a:contains("add")').text('Agregar');
+			profileSection.find('.um-profile-note span').text('Su perfil está un poco vacío. ¿Por qué no agregas algo de información?')​;
+			profileSection.find('span:contains("About")').text('Acerca');
+			profileSection.find('span:contains("Posts")').text('Entradas'); 
+			profileSection.find('span:contains("Comments")').text('Comentarios');
+			profileSection.find('a:contains("Apply")').text('Aplicar'); 
+			profileSection.find('a:contains("Upload photo")').text('Subir Foto'); 
+			profileSection.find('input[value="Update Profile"]').val('Actualizar');
+			profileSection.find('textarea[placeholder="Tell us a bit about yourself..."]').attr('placeholder','Cuéntanos un poco sobre ti...');
+			
+			$('.um-own-profile').find('#um_upload_single div:contains("Change your cover photo")').text('Cambia tu foto de portada'); 
+
+			loginSection.find('a:contains("Your account")').text('Tu Cuenta');
+			loginSection.find('a:contains("Logout")').text('Cerrar Sesión');
+			loginSection.find('a:contains("Forgot your password?")').text('¿Olvidó su contraseña?');
+
+			passwordSection.find('.um-field-password_reset_text div:contains("To reset your password, please enter your email address or username below")').text('Para restablecer su contraseña, ingrese su dirección de correo electrónico o nombre de usuario abajo');
+			passwordSection.find('input[placeholder="Enter your username or email"]').attr('placeholder','Ingrese su nombre de usuario o correo electrónico');
+			passwordSection.find('input[value="Reset my password"]').val('Cambiar mi contraseña');
+			passwordSection.find('p:contains("We have sent you a password reset link to your e-mail. Please check your inbox.")').text('Le hemos enviado un enlace de restablecimiento de contraseña a su correo electrónico. Comprueba tu bandeja de entrada.');
+			passwordSection.find('label[for="user_password"]').text('Nueva Contraseña');
+			passwordSection.find('label[for="confirm_user_password"]').text('Confirmar Contraseña');
+			passwordSection.find('input[value="Change my password"]').val('Cambiar mi contraseña');
+			
+			
+
+			
+
+			
+
+			
+			
+		}
+
+	};
+
 	// Window Load
 	$(window).load(function() {
 		// Preloader
